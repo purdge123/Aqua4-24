@@ -1,0 +1,191 @@
+{
+        "intents": [
+            {
+                "tag": "greeting",
+                "patterns": ["Hi", "Hello", "Hey there", "Good day"],
+                "responses": ["Hello! Welcome to the Aquarium FAQs.", "Hi! How can I assist you today?", "Hey! Ready to help with your fish queries."],
+                "context": [""]
+            },
+            {
+                "tag": "goodbye",
+                "patterns": ["Goodbye", "Bye", "See you later", "Till next time"],
+                "responses": ["Goodbye! Have a great time with your aquatic pals.", "Bye! Happy fish-keeping!", "See you later! If you need more help, just ask."],
+                "context": [""]
+            },
+            {
+                "tag": "thanks",
+                "patterns": ["Thanks", "Thank you", "Appreciate it", "That helps"],
+                "responses": ["Glad I could assist!", "You're welcome!", "Anytime for your fishy questions!"],
+                "context": [""]
+            },
+            {
+                "tag": "noanswer",
+                "patterns": [],
+                "responses": ["I'm sorry, I didn't quite catch that. Could you please rephrase?", "I might need more information to help you with that.", "I'm not sure I understand. Can you provide more details?"],
+                "context": [""]
+            },
+            {
+                "tag": "fish_types",
+                "patterns": ["What types of fish are suitable for beginners?", "Best fish for beginners", "Recommended starter fish"],
+                "responses": ["Beginner-friendly fish include guppies, tetras, and bettas. They're relatively easy to care for."],
+                "context": [""]
+            },
+            {
+                "tag": "tank_setup",
+                "patterns": ["How should I set up a new fish tank?", "Setting up an aquarium", "Tips for aquarium setup"],
+                "responses": ["Ensure the tank is cycled, add substrate, decor, and plants, and condition the water before introducing fish."],
+                "context": [""]
+            },
+            {
+                "tag": "feeding",
+                "patterns": ["How often should I feed my fish?", "Feeding schedule for fish", "Best fish food"],
+                "responses": ["Feed fish small amounts 1-2 times a day. Use quality fish food suitable for their species."],
+                "context": [""]
+            },
+            {
+                "tag": "tank_cleaning",
+                "patterns": ["How frequently should I clean my aquarium?", "Cleaning fish tank", "Tank maintenance"],
+                "responses": ["Regularly clean the tank: partial water changes weekly, clean filters monthly, and remove debris as needed."],
+                "context": [""]
+            },
+            {
+                "tag": "diseases",
+                "patterns": ["How can I tell if my fish is sick?", "Fish diseases", "Identifying sick fish"],
+                "responses": ["Look for signs like changes in behavior, loss of appetite, or visible spots. Quarantine sick fish and seek advice."],
+                "context": [""]
+            },
+            {
+                "tag": "breeding",
+                "patterns": ["Tips for breeding fish", "Fish breeding techniques", "How to breed aquarium fish"],
+                "responses": ["Research specific species' breeding habits. Provide suitable conditions and separate breeding pairs if needed."],
+                "context": [""]
+            },
+            {
+                "tag": "aquascaping",
+                "patterns": ["Ideas for aquascaping", "Aquarium decoration tips", "Creating an appealing aquarium"],
+                "responses": ["Experiment with plants, rocks, driftwood, and substrate to create a visually pleasing and natural-looking habitat."],
+                "context": [""]
+            },
+            {
+                "tag": "compatibility",
+                "patterns": ["Which fish can live together peacefully?", "Fish compatibility", "Community tank suggestions"],
+                "responses": ["Consider fish with similar temperaments and avoid species prone to aggression or size differences."],
+                "context": [""]},
+                {
+                "tag": "tank_size",
+                "patterns": ["What tank size is best for specific fish?", "Ideal aquarium size", "Fish tank capacity"],
+                "responses": ["Research the specific fish's needs; for example, a betta may thrive in a 5-gallon tank, while goldfish need larger tanks due to their size and waste production."],
+                "context": [""]
+                    },
+                    {
+                "tag": "water_params",
+                "patterns": ["How do I maintain proper water parameters?", "Water quality for fish", "Checking aquarium water"],
+                "responses": ["Regularly test pH, ammonia, nitrite, and nitrate levels. Ensure proper filtration and perform water changes accordingly."],
+                "context": [""]
+                    },
+                    {
+                        "tag": "tank_mates",
+                        "patterns": ["Can I keep different species together?", "Mixing fish breeds", "Fish compatibility chart"],
+                        "responses": ["Certain species can coexist peacefully, while others may be territorial or aggressive. Research compatibility before introducing new fish."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "aquarium_plants",
+                        "patterns": ["What plants are suitable for aquariums?", "Aquarium plant selection", "Best aquatic plants"],
+                        "responses": ["Consider easy-to-care-for plants like Java Fern, Anubias, or Vallisneria. Ensure they suit your fish's needs and tank conditions."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "fish_behavior",
+                        "patterns": ["Understanding fish behavior", "Interpreting fish movements", "Fish activity patterns"],
+                        "responses": ["Observe swimming patterns, feeding behaviors, and interactions. Changes may indicate stress, illness, or breeding behavior."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "tank_lighting",
+                        "patterns": ["How important is lighting in an aquarium?", "Choosing aquarium lighting", "Aquarium lights"],
+                        "responses": ["Lighting impacts plant growth and fish behavior. Provide suitable lighting duration and intensity based on your tank's inhabitants."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "fish_nutrition",
+                        "patterns": ["What other foods can I give my fish?", "Variety in fish diet", "Supplementary fish diet"],
+                        "responses": ["Offer a varied diet: pellets, live/frozen foods (e.g., brine shrimp), and blanched vegetables like zucchini or peas for some species."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "tank_decor",
+                        "patterns": ["Decor ideas for fish tanks", "Enhancing aquarium decor", "Creative tank decoration"],
+                        "responses": ["Incorporate caves, driftwood, or natural structures. Ensure decor provides hiding spots and doesn't harm fish."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "fish_growth",
+                        "patterns": ["How fast do fish grow?", "Fish growth rate", "Predicting fish growth"],
+                        "responses": ["Growth rates vary by species and tank conditions. Adequate space, nutrition, and water quality contribute to healthy growth."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "tank_heating",
+                        "patterns": ["Do all fish need a heated tank?", "Heating aquariums", "Temperature requirements for fish"],
+                        "responses": ["Some tropical fish need stable temperatures. Use heaters to maintain appropriate warmth, but research each species' requirements."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "beginner_fish",
+                        "patterns": ["What is the most easy fish to keep?", "What is the most easy fish to keep for beginners?", "beginner fish"],
+                        "responses": ["Guppy,Molly,Platy,Goldfish varieties are easiest fish to keep for beginners."],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "ich",
+                        "patterns": ["White spots on fish","White spots on fish what is this disease?", "Scratching against objects", "Clamped fins"],
+                        "responses": ["It is Ich (White Spot Disease) .Raise water temperature slowly, salt treatment, medication (copper-based, formalin)"],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "fin_rot",
+                        "patterns":["Decaying or frayed fins what is this disease? how to cure?", "Redness or inflammation at fin base how to cure this disease", "Fins falling apart"],
+                        "responses": ["This is called Fin rot disease Maintain good water quality, antibiotics, clean water changes, quarantine infected fish "],
+                        "context": [""]
+                    },
+                    {
+                        "tag": "dropsy",
+                        "patterns": ["Swollen abdomen what is the cure of this disease?", "Bulging eyes how to cure this disease", "Lethargy"],
+                        "responses": ["this is dropsy disease,Isolate infected fish, antibiotics, epsom salt bath, address underlying water quality issues"],
+                        "context":[""]
+                },
+                {
+                        "tag":"velvet_disease",
+                        "patterns":["Fine yellowish/golden dust on fish what is the cure?", "Scratching against objects", "Rapid breathing"],
+                        "responses":["This is called Valvet disease,Raise water temperature slowly, medication (copper-based, formalin), quarantine infected fish"],
+                        "context":[""]
+                },
+                {
+                        "tag":"columnaris_Mouth_Fungus",
+                        "patterns":["White patches on mouth or body how to deal with this?", "Lethargy", "Loss of appetite"],
+                        "responses":["This is columnaris(Mouth_Fungus),use Antibiotics, medication (potassium permanganate, methylene blue), maintain good water quality"],
+                        "context":[""]
+                },
+                {
+                        "tag":"popeye",
+                        "patterns":["Protruding or swollen eyes", "Cloudiness or discoloration of eyes"],
+                        "responses":["This is popeye disease another common diseases in fish,try to Isolate infected fish, use antibiotic treatment, maintain good water quality"],
+                        "context":[""]
+                },
+                {
+                        "tag":"small_tank",
+                        "patterns":["can we keep fish in a bowl or very small fish tank?","Can I keep fish in a small bowl?","Can guppy live in a small tank?"],
+                        "responses":["No,It is'nt good to keep fish in a bowl or small tank if you have little space than you should keep small variety of fish in small tanks like,guppy,shrimps,fish babies"],
+                        "context":[""]
+                },
+                {
+                        "tag":"temperature",
+                        "patterns":["What is the ideal temperature to keep fish","temperature in which lives happy?","Best temperature to keep fish?"],
+                        "responses":["Temperature should be between 23'c to 28'c this temperature is ideal for almost types of fish."],
+                        "context":[""]
+                }
+            
+        ]
+    }
+    
