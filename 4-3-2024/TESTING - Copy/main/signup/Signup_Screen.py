@@ -7,7 +7,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
-import database.Data_Base as db
+from pymongo import MongoClient
+import re
 
 class SignupScreen(Screen):
     def __init__(self, **kwargs):
@@ -95,24 +96,61 @@ class SignupScreen(Screen):
         # Validate input fields
         if not username or not password or not last_name or not email:
             # Display a pop-up message if any field is empty
-            self.show_popup("Error", "All fields are required.")
+            self.show_popup("Error", "All fields are required.", color=(1, 0, 0, 1))  # Red color for error message
         else:
-            # Show a pop-up message indicating successful account creation
-            self.show_popup("Success", "Account created successfully.")
+            # Connect to MongoDB
+            client = MongoClient('mongodb://localhost:27017/')  # Update with your MongoDB connection string
+            db = client['login_page']  # Replace 'your_database_name' with your actual database name
+            collection = db['login_signup']  # Collection name where user data will be stored
 
-            # Switch to the login screen
-            self.manager.current = 'login_screen'
+            # Check if username already exists in the database
+            existing_username = collection.find_one({'username': username})
+            if existing_username:
+                # Username already exists, show error message
+                self.show_popup("Error", "Username already exists.", color=(1, 0, 0, 1))  # Red color for error message
+            else:
+                # Check if email already exists in the database
+                existing_email = collection.find_one({'email': email})
+                if existing_email:
+                    # Email already exists, show error message
+                    self.show_popup("Error", "Email already exists.", color=(1, 0, 0, 1))  # Red color for error message
+                else:
+                    # Validate email format using regular expression
+                    email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+                    if not re.match(email_pattern, email):
+                        # Invalid email format, show error message
+                        self.show_popup("Error", "Invalid email format.", color=(1, 0, 0, 1))  # Red color for error message
+                    else:
+                        # Create a document to insert into the collection
+                        user_data = {
+                            'username': username,
+                            'password': password,
+                            'last_name': last_name,
+                            'email': email
+                        }
 
-            # Clear input fields
-            self.signup_username_input.text = ""
-            self.signup_password_input.text = ""
-            self.signup_lastname_input.text = ""
-            self.signup_email_input.text = ""
+                        # Insert the document into the collection
+                        collection.insert_one(user_data)
 
-    def show_popup(self, title, content):
+                        # Close the MongoDB connection
+                        client.close()
+
+                        # Show a pop-up message indicating successful account creation
+                        self.show_popup("Success", "Account created successfully.", color=(0, 1, 0, 1))  # Green color for success message
+
+                        # Switch to the login screen
+                        self.manager.current = 'login_screen'
+
+                        # Clear input fields
+                        self.signup_username_input.text = ""
+                        self.signup_password_input.text = ""
+                        self.signup_lastname_input.text = ""
+                        self.signup_email_input.text = ""
+
+    def show_popup(self, title, content, color=(0, 0, 0, 1)):
         # Display a pop-up message with an OK button centered at the bottom
         popup_content = BoxLayout(orientation='vertical', spacing=10)
-        popup_content.add_widget(Label(text=content, size_hint_y=None, height=40))
+        popup_content.add_widget(Label(text=content, size_hint_y=None, height=40, color=color))
 
         ok_button = Button(text="OK", size_hint_y=None, height=40)
         ok_button.bind(on_press=lambda *args: self.popup.dismiss())
@@ -128,3 +166,7 @@ class SignupScreen(Screen):
     def go_to_login_screen(self, instance):
         # Switch to the login screen
         self.manager.current = 'login_screen'
+
+
+
+    

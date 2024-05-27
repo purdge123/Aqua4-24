@@ -1,4 +1,4 @@
-
+from chatgui import ChatBotApp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.image import Image
@@ -8,13 +8,9 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
-from chatgui import ChatBotApp
+from kivy.graphics import Color, Rectangle
 from kivymd.uix.button import MDRaisedButton
 from kivy.animation import Animation
-
-class CircularMaskImage(BoxLayout):
-    pass
-
 
 
 class HomeScreen(Screen):
@@ -32,7 +28,7 @@ class HomeScreen(Screen):
             size_hint=(None, None),
             size=(200, 120),
             pos_hint={'center_x': 0.55, 'top': 0.80}  # Adjusted pos_hint for horizontal shift
-    )
+        )
         self.menu_layout.opacity = 0  # Initially hidden
         self.add_widget(Image(source="mainBg.png", allow_stretch=True, keep_ratio=False, size_hint=(1, 1)))
 
@@ -47,7 +43,6 @@ class HomeScreen(Screen):
             size_hint=(None, None),
             height=20,
             pos_hint={'top': 0.80, 'left': 0.85} # Adjusted left position to 0.85
-            
         )
 
         top_layout1 = BoxLayout(
@@ -57,8 +52,6 @@ class HomeScreen(Screen):
             pos_hint={'top': 0.95, 'right': 1}
         )
 
-        # Add the circular logo image to the top-left corner
-       
         # Add a chat button at the bottom right corner
         chat_button = Button(
             size_hint=(None,None ),
@@ -92,7 +85,7 @@ class HomeScreen(Screen):
         self.add_widget(top_layout1)
         self.add_widget(top_layout2)
 
-        #Central transparent square box with a plus button
+        # Central transparent square box with a plus button
         center_layout = BoxLayout(
             orientation='vertical',
             size_hint=(None, None),
@@ -109,6 +102,15 @@ class HomeScreen(Screen):
         )
         center_layout.add_widget(plus_button)
         self.add_widget(center_layout)
+
+        # Create a BoxLayout to hold the tank widgets
+        self.tank_container = BoxLayout(
+            orientation='horizontal',
+            spacing=10,  # Add space between each tank widget
+            size_hint=(None, None),
+            pos_hint={'center_x': 0.5, 'center_y': 0.5}
+        )
+        self.add_widget(self.tank_container)
 
     def create_menu_box(self):
         menu_box = BoxLayout(
@@ -212,3 +214,32 @@ class HomeScreen(Screen):
         # Scroll to the top to show the latest message
         chat_layout.height = chat_layout.minimum_height
         chat_layout.parent.scroll_y = 0
+
+    def add_tank_widget(self, tank_data):
+        # Create a new BoxLayout for the tank widget
+        tank_widget = BoxLayout(orientation='vertical', size_hint=(None, None), size=(90, 120))
+
+        # Add a background image
+        if tank_data['image_path'] and tank_data['image_path'] != 'No file chosen':
+            tank_image = Image(source=tank_data['image_path'], allow_stretch=True, keep_ratio=False)
+            tank_widget.add_widget(tank_image)
+
+        # Add tank name and ID as labels
+        tank_widget.add_widget(Label(text=f"Name: {tank_data['tank_name']}", size_hint_y=None, height=20, color=(1, 1, 1, 1)))
+        tank_widget.add_widget(Label(text=f"ID: {tank_data['tank_id']}", size_hint_y=None, height=20, color=(1, 1, 1, 1)))
+
+        # Add the tank widget to the tank container
+        self.tank_container.add_widget(tank_widget)
+
+        # Calculate the total width of all tank widgets in the tank container
+        total_width = sum(child.width for child in self.tank_container.children)
+
+        # Calculate the x-position to center the tank widgets horizontally
+        center_x = (self.width - total_width) / 2
+
+        # Adjust the position of the tank container to center all tank widgets horizontally
+        self.tank_container.pos_hint = {'x': center_x / self.width, 'center_y': 0.5}
+
+
+
+
