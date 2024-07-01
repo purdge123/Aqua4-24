@@ -48,15 +48,15 @@ class LoginScreen(Screen):
 
         main_layout.add_widget(input_layout)
 
-        button_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(200, 40), spacing=10)
+        button_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(180, 30), spacing=10)
         button_layout.pos_hint = {'center_x': 0.5}
 
-        self.login_button = Button(text="Login")
+        self.login_button = Button(background_normal="loginButton.png")
         self.login_button.bind(on_press=self.login)
         self.login_button.font_name = 'times'
         button_layout.add_widget(self.login_button)
 
-        self.signup_button = Button(text="Signup")
+        self.signup_button = Button(background_normal="signupButton.png")
         self.signup_button.bind(on_press=self.go_to_signup)
         self.signup_button.font_name = 'times'
         button_layout.add_widget(self.signup_button)

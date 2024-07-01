@@ -8,9 +8,12 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
-from kivy.graphics import Color, Rectangle
+from kivy.uix.togglebutton import ToggleButton
+from kivy.metrics import dp
+from kivy.properties import BooleanProperty
 from kivymd.uix.button import MDRaisedButton
 from kivy.animation import Animation
+
 
 
 class HomeScreen(Screen):
@@ -78,7 +81,7 @@ class HomeScreen(Screen):
         hamburger_button.bind(on_press=self.toggle_menu)
 
         # Add a logout button to the top-right corner
-        self.logout_button = MDRaisedButton(text="Logout", size_hint=(None, None), size=(70, 40))
+        self.logout_button = Button(background_normal="logoutButton.png", size_hint=(None, None), size=(70, 30))
         top_layout1.add_widget(self.logout_button)
         self.logout_button.bind(on_press=self.go_to_login)
 
@@ -93,7 +96,7 @@ class HomeScreen(Screen):
             pos_hint={'center_x': 0.5, 'center_y': 0.5}
         )
 
-        plus_button = MDRaisedButton(
+        plus_button = Button(
             text="+",
             size_hint=(None, None),
             size=(50, 50),
@@ -112,6 +115,9 @@ class HomeScreen(Screen):
         )
         self.add_widget(self.tank_container)
 
+        # Dictionary to store the toggle state for each tank widget
+        self.tank_toggle_states = {}
+
     def create_menu_box(self):
         menu_box = BoxLayout(
             orientation='vertical',
@@ -119,7 +125,7 @@ class HomeScreen(Screen):
         )
 
         # Add menu items
-        menu_items = ["Home", "Contact", "Help"]
+        menu_items = ["Home", "Contact", "Help","Scan"]
         for item in menu_items:
             menu_button = Button(text=item, size_hint_y=None, size=(70, 40), height=40)
             menu_button.bind(on_press=self.on_menu_button_press)
@@ -132,7 +138,7 @@ class HomeScreen(Screen):
         if self.menu_layout.opacity == 0:
             self.menu_layout.opacity = 1
             self.menu_layout.size_hint_x = 0.2  # Adjust the width as needed
-            self.menu_layout.pos_hint = {'center_x': 0.20, 'center_y': 0.66}  # Adjusted pos_hint
+            self.menu_layout.pos_hint = {'center_x': 0.17, 'center_y': 0.54}  # Adjusted pos_hint
         else:
             self.menu_layout.opacity = 0
             self.menu_layout.size_hint_x = None
@@ -147,6 +153,8 @@ class HomeScreen(Screen):
             self.manager.current = 'chat_screen'
         elif instance.text == "Help":
             self.show_help_popup()
+        elif instance.text == "Scan":
+            self.manager.current = 'home_screen'
             
     def go_to_home(self, instance):
         self.manager.current = 'home_screen'
@@ -223,13 +231,13 @@ class HomeScreen(Screen):
         if tank_data['image_path'] and tank_data['image_path'] != 'No file chosen':
             tank_image = Image(source=tank_data['image_path'], allow_stretch=True, keep_ratio=False)
             tank_widget.add_widget(tank_image)
-
-        # Add tank name and ID as labels
-        tank_widget.add_widget(Label(text=f"Name: {tank_data['tank_name']}", size_hint_y=None, height=20, color=(1, 1, 1, 1)))
-        tank_widget.add_widget(Label(text=f"ID: {tank_data['tank_id']}", size_hint_y=None, height=20, color=(1, 1, 1, 1)))
+            tank_image.bind(on_touch_down=lambda instance, touch: self.toggle_tank_details(touch, tank_widget, tank_data))
 
         # Add the tank widget to the tank container
         self.tank_container.add_widget(tank_widget)
+
+        # Initialize the toggle state for this tank widget
+        self.tank_toggle_states[tank_widget] = False
 
         # Calculate the total width of all tank widgets in the tank container
         total_width = sum(child.width for child in self.tank_container.children)
@@ -240,6 +248,15 @@ class HomeScreen(Screen):
         # Adjust the position of the tank container to center all tank widgets horizontally
         self.tank_container.pos_hint = {'x': center_x / self.width, 'center_y': 0.5}
 
-
-
-
+    def toggle_tank_details(self, touch, tank_widget, tank_data):
+        if tank_widget.collide_point(*touch.pos):
+            if not self.tank_toggle_states[tank_widget]:
+                # Details are currently hidden, show them
+                tank_details_label = Label(text=f"Name: {tank_data['tank_name']}\nID: {tank_data['tank_id']}\nSize: {tank_data['tank_size']}",
+                                           size_hint_y=None, height=dp(60), color=(1, 1, 1, 1))
+                tank_widget.add_widget(tank_details_label)
+                self.tank_toggle_states[tank_widget] = True
+            else:
+                # Details are currently shown, hide them
+                tank_widget.remove_widget(tank_widget.children[-1])
+                self.tank_toggle_states[tank_widget] = False
