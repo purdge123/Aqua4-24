@@ -1,25 +1,27 @@
-from chatgui import ChatBotApp
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
 from kivy.uix.image import Image
-from kivy.uix.screenmanager import Screen
+from kivy.uix.button import Button
 from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
-from kivy.uix.togglebutton import ToggleButton
 from kivy.metrics import dp
-from kivy.properties import BooleanProperty
-from kivymd.uix.button import MDRaisedButton
+from kivy.properties import ObjectProperty
 from kivy.animation import Animation
+
+from pymongo import MongoClient
+from chatgui import ChatBotApp
 
 
 
 class HomeScreen(Screen):
+    new_chatbot = ChatBotApp()
+
     def __init__(self, **kwargs):
-        self.new_chatbotapp = ChatBotApp()
         super().__init__(**kwargs)
+        self.tank_popup = None  # Store reference to tank details popup
         self.name = 'home_screen'
         self.orientation = "vertical"
         self.spacing = 15
@@ -69,7 +71,7 @@ class HomeScreen(Screen):
         self.add_widget(chat_button)
 
         # Add a hamburger menu toggle button with an image
-        hamburger_button =Button(
+        hamburger_button = Button(
             size_hint=(None, None),
             size=(100, 35),
             background_normal="menuButton.png",
@@ -118,6 +120,22 @@ class HomeScreen(Screen):
         # Dictionary to store the toggle state for each tank widget
         self.tank_toggle_states = {}
 
+        # MongoDB setup
+        self.client = MongoClient("mongodb://localhost:27017/")
+        self.db = self.client['tank_database']
+        self.collection = self.db['tanks']
+
+        # User-specific data (you need to set this when the user logs in)
+        self.username = 'ali'
+
+        # Fetch user-specific tanks from MongoDB
+        self.fetch_user_tanks()
+
+    def fetch_user_tanks(self):
+        user_tanks = self.collection.find({"username": self.username})
+        for tank_data in user_tanks:
+            self.add_tank_widget(tank_data)
+
     def create_menu_box(self):
         menu_box = BoxLayout(
             orientation='vertical',
@@ -125,7 +143,7 @@ class HomeScreen(Screen):
         )
 
         # Add menu items
-        menu_items = ["Home", "Contact", "Help","Scan"]
+        menu_items = ["Home", "Contact", "Help", "Scan"]
         for item in menu_items:
             menu_button = Button(text=item, size_hint_y=None, size=(70, 40), height=40)
             menu_button.bind(on_press=self.on_menu_button_press)
@@ -219,18 +237,23 @@ class HomeScreen(Screen):
         chat_layout.add_widget(user_response_label)
         chat_layout.add_widget(bot_response_label)
 
-        # Scroll to the top to show the latest message
-        chat_layout.height = chat_layout.minimum_height
-        chat_layout.parent.scroll_y = 0
+        # Clear the chat input
+        message.text = ''
 
     def add_tank_widget(self, tank_data):
         # Create a new BoxLayout for the tank widget
-        tank_widget = BoxLayout(orientation='vertical', size_hint=(None, None), size=(90, 120))
+        tank_widget = BoxLayout(orientation='vertical', size_hint=(None, None), size=(120, 160))
+        tank_widget.tank_data = tank_data  # Store tank_data in the tank_widget
 
         # Add a background image
         if tank_data['image_path'] and tank_data['image_path'] != 'No file chosen':
             tank_image = Image(source=tank_data['image_path'], allow_stretch=True, keep_ratio=False)
             tank_widget.add_widget(tank_image)
+
+            # Add tank name as a Label under the image
+            tank_name_label = Label(text=tank_data['tank_name'], size_hint_y=None, height=dp(20))
+            tank_widget.add_widget(tank_name_label)
+
             tank_image.bind(on_touch_down=lambda instance, touch: self.toggle_tank_details(touch, tank_widget, tank_data))
 
         # Add the tank widget to the tank container
@@ -250,13 +273,66 @@ class HomeScreen(Screen):
 
     def toggle_tank_details(self, touch, tank_widget, tank_data):
         if tank_widget.collide_point(*touch.pos):
-            if not self.tank_toggle_states[tank_widget]:
-                # Details are currently hidden, show them
-                tank_details_label = Label(text=f"Name: {tank_data['tank_name']}\nID: {tank_data['tank_id']}\nSize: {tank_data['tank_size']}",
-                                           size_hint_y=None, height=dp(60), color=(1, 1, 1, 1))
-                tank_widget.add_widget(tank_details_label)
-                self.tank_toggle_states[tank_widget] = True
-            else:
-                # Details are currently shown, hide them
-                tank_widget.remove_widget(tank_widget.children[-1])
-                self.tank_toggle_states[tank_widget] = False
+            # Always show tank details when the image is touched
+            self.show_tank_details_popup(tank_data)
+
+    def show_tank_details_popup(self, tank_data):
+        # Create a popup for tank details
+        self.tank_popup = Popup(title='Tank Details', size_hint=(None, None), size=(400, 400))
+
+        # Create TextInput widgets for editable fields
+        tank_name_input = TextInput(text=tank_data['tank_name'], multiline=False, size_hint_y=None, height=dp(40))
+        tank_id_input = TextInput(text=tank_data['tank_id'], multiline=False, size_hint_y=None, height=dp(40))
+        tank_size_input = TextInput(text=tank_data['tank_size'], multiline=False, size_hint_y=None, height=dp(40))
+
+        # Add tank image to the popup content
+        tank_image = Image(source=tank_data['image_path'], size_hint=(None, None), size=(300, 300), allow_stretch=True, keep_ratio=True)
+        tank_details_label = Label(
+            text=f"Name: {tank_data['tank_name']}\nID: {tank_data['tank_id']}\nSize: {tank_data['tank_size']}",
+            size_hint_y=None, height=dp(100), color=(1, 1, 1, 1))
+
+        save_button = Button(text='Save', size_hint_y=None, height=dp(40))
+        save_button.bind(on_press=lambda x: self.save_tank_details(tank_data, tank_name_input.text, tank_id_input.text, tank_size_input.text))
+        delete_button = Button(text='Delete', size_hint_y=None, height=dp(40))
+        delete_button.bind(on_press=lambda x: self.delete_tank_details(tank_data))
+
+        # Add widgets to the tank details popup
+        content = BoxLayout(orientation='vertical')
+        content.add_widget(tank_image)
+        content.add_widget(tank_name_input)
+        content.add_widget(tank_id_input)
+        content.add_widget(tank_size_input)
+        content.add_widget(save_button)
+        content.add_widget(delete_button)
+
+        self.tank_popup.content = content
+        self.tank_popup.open()
+
+    def save_tank_details(self, tank_data, new_name, new_id, new_size):
+        # Update tank_data dictionary with new values
+        tank_data['tank_name'] = new_name
+        tank_data['tank_id'] = new_id
+        tank_data['tank_size'] = new_size
+
+        # Update the displayed tank details in the popup
+        tank_details_text = f"Name: {new_name}\nID: {new_id}\nSize: {new_size}"
+        self.tank_popup.content.children[0].children[3].text = tank_details_text  # Update the Label in the popup
+
+        # Update MongoDB with the new tank details (if needed)
+        # Example:
+        # self.collection.update_one({'_id': tank_data['_id']}, {"$set": tank_data})
+
+        self.tank_popup.dismiss()
+
+    def delete_tank_details(self, tank_data):
+        # Delete tank details from MongoDB
+        # Example:
+        # self.collection.delete_one({'_id': tank_data['_id']})
+
+        # Remove tank widget from tank_container
+        for child in self.tank_container.children[:]:
+            if child.tank_data == tank_data:
+                self.tank_container.remove_widget(child)
+                break
+
+        self.tank_popup.dismiss()

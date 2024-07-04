@@ -9,7 +9,7 @@ from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.image import Image
-
+from pymongo import MongoClient
 
 class AddTankScreen(Screen):
     last_assigned_tank_id = 0
@@ -18,6 +18,14 @@ class AddTankScreen(Screen):
         super().__init__(**kwargs)
         self.name = 'add_tank_screen'
         self.add_widget(Image(source="home_image.jpg", allow_stretch=True, keep_ratio=False, size_hint=(1, 1)))
+
+        # MongoDB setup
+        self.client = MongoClient("mongodb://localhost:27017/")
+        self.db = self.client['login_page']
+        self.collection = self.db['Addition_page']
+
+        # User-specific data (you need to set this when the user logs in)
+        self.username = 'ali'
 
         # Use FloatLayout to position elements precisely
         float_layout = FloatLayout()
@@ -134,12 +142,16 @@ class AddTankScreen(Screen):
     def submit_form(self, instance):
         # Access entered data from each text input field in the layout
         tank_data = {
+            "username": self.username,
             "tank_id": self.tank_id_label.text,
             "tank_name": self.tank_name_input.text,
             "tank_size": self.tank_size_input.text,
             "num_fishes": self.num_fishes_input.text,
             "image_path": self.file_path_label.text
         }
+
+        # Save to MongoDB
+        self.collection.insert_one(tank_data)
 
         # Pass the data to the HomeScreen and switch to it
         self.manager.get_screen('home_screen').add_tank_widget(tank_data)
@@ -150,6 +162,3 @@ class AddTankScreen(Screen):
 
     def go_back(self, instance):
         self.manager.current = 'home_screen'
-
-
-

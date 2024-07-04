@@ -5,9 +5,10 @@ from addtank.AddTank_Screen import  AddTankScreen
 from signup.Signup_Screen import SignupScreen
 from login.Login_Screen import LoginScreen
 from chat.CHAT_Screen import  ChatScreen
+from kivymd.app import MDApp
 
 
-class LoginSignupApp(App):
+class LoginSignupApp(MDApp):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(LoginScreen())
