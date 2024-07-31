@@ -38,7 +38,7 @@ class ScanScreen(Screen):
     def on_enter(self):
         # Start capturing frames from the video stream when the screen is entered
         print("Starting video stream...")
-        self.cap = cv2.VideoCapture('http://192.168.100.91:8080/video')
+        self.cap = cv2.VideoCapture('http://192.168.100.89:8080/video')
         if not self.cap.isOpened():
             print("Error: Cannot open video stream")
         # Start a separate thread for capturing frames

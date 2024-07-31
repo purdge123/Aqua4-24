@@ -1,191 +1,558 @@
 {
-        "intents": [
-            {
-                "tag": "greeting",
-                "patterns": ["Hi", "Hello", "Hey there", "Good day"],
-                "responses": ["Hello! Welcome to the Aquarium FAQs.", "Hi! How can I assist you today?", "Hey! Ready to help with your fish queries."],
-                "context": [""]
-            },
-            {
-                "tag": "goodbye",
-                "patterns": ["Goodbye", "Bye", "See you later", "Till next time"],
-                "responses": ["Goodbye! Have a great time with your aquatic pals.", "Bye! Happy fish-keeping!", "See you later! If you need more help, just ask."],
-                "context": [""]
-            },
-            {
-                "tag": "thanks",
-                "patterns": ["Thanks", "Thank you", "Appreciate it", "That helps"],
-                "responses": ["Glad I could assist!", "You're welcome!", "Anytime for your fishy questions!"],
-                "context": [""]
-            },
-            {
-                "tag": "noanswer",
-                "patterns": [],
-                "responses": ["I'm sorry, I didn't quite catch that. Could you please rephrase?", "I might need more information to help you with that.", "I'm not sure I understand. Can you provide more details?"],
-                "context": [""]
-            },
-            {
-                "tag": "fish_types",
-                "patterns": ["What types of fish are suitable for beginners?", "Best fish for beginners", "Recommended starter fish"],
-                "responses": ["Beginner-friendly fish include guppies, tetras, and bettas. They're relatively easy to care for."],
-                "context": [""]
-            },
-            {
-                "tag": "tank_setup",
-                "patterns": ["How should I set up a new fish tank?", "Setting up an aquarium", "Tips for aquarium setup"],
-                "responses": ["Ensure the tank is cycled, add substrate, decor, and plants, and condition the water before introducing fish."],
-                "context": [""]
-            },
-            {
-                "tag": "feeding",
-                "patterns": ["How often should I feed my fish?", "Feeding schedule for fish", "Best fish food"],
-                "responses": ["Feed fish small amounts 1-2 times a day. Use quality fish food suitable for their species."],
-                "context": [""]
-            },
-            {
-                "tag": "tank_cleaning",
-                "patterns": ["How frequently should I clean my aquarium?", "Cleaning fish tank", "Tank maintenance"],
-                "responses": ["Regularly clean the tank: partial water changes weekly, clean filters monthly, and remove debris as needed."],
-                "context": [""]
-            },
-            {
-                "tag": "diseases",
-                "patterns": ["How can I tell if my fish is sick?", "Fish diseases", "Identifying sick fish"],
-                "responses": ["Look for signs like changes in behavior, loss of appetite, or visible spots. Quarantine sick fish and seek advice."],
-                "context": [""]
-            },
-            {
-                "tag": "breeding",
-                "patterns": ["Tips for breeding fish", "Fish breeding techniques", "How to breed aquarium fish"],
-                "responses": ["Research specific species' breeding habits. Provide suitable conditions and separate breeding pairs if needed."],
-                "context": [""]
-            },
-            {
-                "tag": "aquascaping",
-                "patterns": ["Ideas for aquascaping", "Aquarium decoration tips", "Creating an appealing aquarium"],
-                "responses": ["Experiment with plants, rocks, driftwood, and substrate to create a visually pleasing and natural-looking habitat."],
-                "context": [""]
-            },
-            {
-                "tag": "compatibility",
-                "patterns": ["Which fish can live together peacefully?", "Fish compatibility", "Community tank suggestions"],
-                "responses": ["Consider fish with similar temperaments and avoid species prone to aggression or size differences."],
-                "context": [""]},
-                {
-                "tag": "tank_size",
-                "patterns": ["What tank size is best for specific fish?", "Ideal aquarium size", "Fish tank capacity"],
-                "responses": ["Research the specific fish's needs; for example, a betta may thrive in a 5-gallon tank, while goldfish need larger tanks due to their size and waste production."],
-                "context": [""]
-                    },
-                    {
-                "tag": "water_params",
-                "patterns": ["How do I maintain proper water parameters?", "Water quality for fish", "Checking aquarium water"],
-                "responses": ["Regularly test pH, ammonia, nitrite, and nitrate levels. Ensure proper filtration and perform water changes accordingly."],
-                "context": [""]
-                    },
-                    {
-                        "tag": "tank_mates",
-                        "patterns": ["Can I keep different species together?", "Mixing fish breeds", "Fish compatibility chart"],
-                        "responses": ["Certain species can coexist peacefully, while others may be territorial or aggressive. Research compatibility before introducing new fish."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "aquarium_plants",
-                        "patterns": ["What plants are suitable for aquariums?", "Aquarium plant selection", "Best aquatic plants"],
-                        "responses": ["Consider easy-to-care-for plants like Java Fern, Anubias, or Vallisneria. Ensure they suit your fish's needs and tank conditions."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "fish_behavior",
-                        "patterns": ["Understanding fish behavior", "Interpreting fish movements", "Fish activity patterns"],
-                        "responses": ["Observe swimming patterns, feeding behaviors, and interactions. Changes may indicate stress, illness, or breeding behavior."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "tank_lighting",
-                        "patterns": ["How important is lighting in an aquarium?", "Choosing aquarium lighting", "Aquarium lights"],
-                        "responses": ["Lighting impacts plant growth and fish behavior. Provide suitable lighting duration and intensity based on your tank's inhabitants."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "fish_nutrition",
-                        "patterns": ["What other foods can I give my fish?", "Variety in fish diet", "Supplementary fish diet"],
-                        "responses": ["Offer a varied diet: pellets, live/frozen foods (e.g., brine shrimp), and blanched vegetables like zucchini or peas for some species."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "tank_decor",
-                        "patterns": ["Decor ideas for fish tanks", "Enhancing aquarium decor", "Creative tank decoration"],
-                        "responses": ["Incorporate caves, driftwood, or natural structures. Ensure decor provides hiding spots and doesn't harm fish."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "fish_growth",
-                        "patterns": ["How fast do fish grow?", "Fish growth rate", "Predicting fish growth"],
-                        "responses": ["Growth rates vary by species and tank conditions. Adequate space, nutrition, and water quality contribute to healthy growth."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "tank_heating",
-                        "patterns": ["Do all fish need a heated tank?", "Heating aquariums", "Temperature requirements for fish"],
-                        "responses": ["Some tropical fish need stable temperatures. Use heaters to maintain appropriate warmth, but research each species' requirements."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "beginner_fish",
-                        "patterns": ["What is the most easy fish to keep?", "What is the most easy fish to keep for beginners?", "beginner fish"],
-                        "responses": ["Guppy,Molly,Platy,Goldfish varieties are easiest fish to keep for beginners."],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "ich",
-                        "patterns": ["White spots on fish","White spots on fish what is this disease?", "Scratching against objects", "Clamped fins"],
-                        "responses": ["It is Ich (White Spot Disease) .Raise water temperature slowly, salt treatment, medication (copper-based, formalin)"],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "fin_rot",
-                        "patterns":["Decaying or frayed fins what is this disease? how to cure?", "Redness or inflammation at fin base how to cure this disease", "Fins falling apart"],
-                        "responses": ["This is called Fin rot disease Maintain good water quality, antibiotics, clean water changes, quarantine infected fish "],
-                        "context": [""]
-                    },
-                    {
-                        "tag": "dropsy",
-                        "patterns": ["Swollen abdomen what is the cure of this disease?", "Bulging eyes how to cure this disease", "Lethargy"],
-                        "responses": ["this is dropsy disease,Isolate infected fish, antibiotics, epsom salt bath, address underlying water quality issues"],
-                        "context":[""]
-                },
-                {
-                        "tag":"velvet_disease",
-                        "patterns":["Fine yellowish/golden dust on fish what is the cure?", "Scratching against objects", "Rapid breathing"],
-                        "responses":["This is called Valvet disease,Raise water temperature slowly, medication (copper-based, formalin), quarantine infected fish"],
-                        "context":[""]
-                },
-                {
-                        "tag":"columnaris_Mouth_Fungus",
-                        "patterns":["White patches on mouth or body how to deal with this?", "Lethargy", "Loss of appetite"],
-                        "responses":["This is columnaris(Mouth_Fungus),use Antibiotics, medication (potassium permanganate, methylene blue), maintain good water quality"],
-                        "context":[""]
-                },
-                {
-                        "tag":"popeye",
-                        "patterns":["Protruding or swollen eyes", "Cloudiness or discoloration of eyes"],
-                        "responses":["This is popeye disease another common diseases in fish,try to Isolate infected fish, use antibiotic treatment, maintain good water quality"],
-                        "context":[""]
-                },
-                {
-                        "tag":"small_tank",
-                        "patterns":["can we keep fish in a bowl or very small fish tank?","Can I keep fish in a small bowl?","Can guppy live in a small tank?"],
-                        "responses":["No,It is'nt good to keep fish in a bowl or small tank if you have little space than you should keep small variety of fish in small tanks like,guppy,shrimps,fish babies"],
-                        "context":[""]
-                },
-                {
-                        "tag":"temperature",
-                        "patterns":["What is the ideal temperature to keep fish","temperature in which lives happy?","Best temperature to keep fish?"],
-                        "responses":["Temperature should be between 23'c to 28'c this temperature is ideal for almost types of fish."],
-                        "context":[""]
-                }
-            
-        ]
-    }
-    
+    "intents": [
+        {
+            "tag": "greeting",
+            "patterns": ["Hi", "Hello", "Hey there", "Good day"],
+            "responses": ["Hello! Welcome to the Aquarium FAQs.", "Hi! How can I assist you today?", "Hey! Ready to help with your fish queries."],
+            "context": [""]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": ["Goodbye", "Bye", "See you later", "Till next time"],
+            "responses": ["Goodbye! Have a great time with your aquatic pals.", "Bye! Happy fish-keeping!", "See you later! If you need more help, just ask."],
+            "context": [""]
+        },
+        {
+            "tag": "thanks",
+            "patterns": ["Thanks", "Thank you", "Appreciate it", "That helps"],
+            "responses": ["Glad I could assist!", "You're welcome!", "Anytime for your fishy questions!"],
+            "context": [""]
+        },
+        {
+            "tag": "noanswer",
+            "patterns": [],
+            "responses": ["I'm sorry, I didn't quite catch that. Could you please rephrase?", "I might need more information to help you with that.", "I'm not sure I understand. Can you provide more details?"],
+            "context": [""]
+        },
+        {
+            "tag": "fish_types",
+            "patterns": ["What types of fish are suitable for beginners?", "Best fish for beginners", "Recommended starter fish"],
+            "responses": ["Beginner-friendly fish include guppies, tetras, and bettas. They're relatively easy to care for."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_setup",
+            "patterns": ["How should I set up a new fish tank?", "Setting up an aquarium", "Tips for aquarium setup"],
+            "responses": ["Ensure the tank is cycled, add substrate, decor, and plants, and condition the water before introducing fish."],
+            "context": [""]
+        },
+        {
+            "tag": "feeding",
+            "patterns": ["How often should I feed my fish?", "Feeding schedule for fish", "Best fish food"],
+            "responses": ["Feed fish small amounts 1-2 times a day. Use quality fish food suitable for their species."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_cleaning",
+            "patterns": ["How frequently should I clean my aquarium?", "Cleaning fish tank", "Tank maintenance"],
+            "responses": ["Regularly clean the tank: partial water changes weekly, clean filters monthly, and remove debris as needed."],
+            "context": [""]
+        },
+        {
+            "tag": "diseases",
+            "patterns": ["How can I tell if my fish is sick?", "Fish diseases", "Identifying sick fish"],
+            "responses": ["Look for signs like changes in behavior, loss of appetite, or visible spots. Quarantine sick fish and seek advice."],
+            "context": [""]
+        },
+        {
+            "tag": "breeding",
+            "patterns": ["Tips for breeding fish", "Fish breeding techniques", "How to breed aquarium fish"],
+            "responses": ["Research specific species' breeding habits. Provide suitable conditions and separate breeding pairs if needed."],
+            "context": [""]
+        },
+        {
+            "tag": "aquascaping",
+            "patterns": ["Ideas for aquascaping", "Aquarium decoration tips", "Creating an appealing aquarium"],
+            "responses": ["Experiment with plants, rocks, driftwood, and substrate to create a visually pleasing and natural-looking habitat."],
+            "context": [""]
+        },
+        {
+            "tag": "compatibility",
+            "patterns": ["Which fish can live together peacefully?", "Fish compatibility", "Community tank suggestions"],
+            "responses": ["Consider fish with similar temperaments and avoid species prone to aggression or size differences."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_size",
+            "patterns": ["What tank size is best for specific fish?", "Ideal aquarium size", "Fish tank capacity"],
+            "responses": ["Research the specific fish's needs; for example, a betta may thrive in a 5-gallon tank, while goldfish need larger tanks due to their size and waste production."],
+            "context": [""]
+        },
+        {
+            "tag": "water_params",
+            "patterns": ["How do I maintain proper water parameters?", "Water quality for fish", "Checking aquarium water"],
+            "responses": ["Regularly test pH, ammonia, nitrite, and nitrate levels. Ensure proper filtration and perform water changes accordingly."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_mates",
+            "patterns": ["Can I keep different species together?", "Mixing fish breeds", "Fish compatibility chart"],
+            "responses": ["Certain species can coexist peacefully, while others may be territorial or aggressive. Research compatibility before introducing new fish."],
+            "context": [""]
+        },
+        {
+            "tag": "aquarium_plants",
+            "patterns": ["What plants are suitable for aquariums?", "Aquarium plant selection", "Best aquatic plants"],
+            "responses": ["Consider easy-to-care-for plants like Java Fern, Anubias, or Vallisneria. Ensure they suit your fish's needs and tank conditions."],
+            "context": [""]
+        },
+        {
+            "tag": "fish_behavior",
+            "patterns": ["Understanding fish behavior", "Interpreting fish movements", "Fish activity patterns"],
+            "responses": ["Observe swimming patterns, feeding behaviors, and interactions. Changes may indicate stress, illness, or breeding behavior."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_lighting",
+            "patterns": ["How important is lighting in an aquarium?", "Choosing aquarium lighting", "Aquarium lights"],
+            "responses": ["Lighting impacts plant growth and fish behavior. Provide suitable lighting duration and intensity based on your tank's inhabitants."],
+            "context": [""]
+        },
+        {
+            "tag": "fish_nutrition",
+            "patterns": ["What other foods can I give my fish?", "Variety in fish diet", "Supplementary fish diet"],
+            "responses": ["Offer a varied diet: pellets, live/frozen foods (e.g., brine shrimp), and blanched vegetables like zucchini or peas for some species."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_decor",
+            "patterns": ["Decor ideas for fish tanks", "Enhancing aquarium decor", "Creative tank decoration"],
+            "responses": ["Incorporate caves, driftwood, or natural structures. Ensure decor provides hiding spots and doesn't harm fish."],
+            "context": [""]
+        },
+        {
+            "tag": "fish_growth",
+            "patterns": ["How fast do fish grow?", "Fish growth rate", "Predicting fish growth"],
+            "responses": ["Growth rates vary by species and tank conditions. Adequate space, nutrition, and water quality contribute to healthy growth."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_heating",
+            "patterns": ["Do all fish need a heated tank?", "Heating aquariums", "Temperature requirements for fish"],
+            "responses": ["Some tropical fish need stable temperatures. Use heaters to maintain appropriate warmth, but research each species' requirements."],
+            "context": [""]
+        },
+        {
+            "tag": "beginner_fish",
+            "patterns": ["What is the most easy fish to keep?", "What is the most easy fish to keep for beginners?", "beginner fish"],
+            "responses": ["Guppy, Molly, Platy, Goldfish varieties are the easiest fish to keep for beginners."],
+            "context": [""]
+        },
+        {
+            "tag": "ich",
+            "patterns": ["White spots on fish", "White spots on fish what is this disease?", "Scratching against objects", "Clamped fins"],
+            "responses": ["This is Ich (White Spot Disease). Raise water temperature slowly, use salt treatment, and medication (copper-based, formalin)."],
+            "context": [""]
+        },
+        {
+            "tag": "fin_rot",
+            "patterns": ["Decaying or frayed fins what is this disease? How to cure?", "Redness or inflammation at fin base how to cure this disease", "Fins falling apart"],
+            "responses": ["This is called Fin Rot disease. Maintain good water quality, use antibiotics, perform clean water changes, and quarantine infected fish."],
+            "context": [""]
+        },
+        {
+            "tag": "dropsy",
+            "patterns": ["Swollen abdomen what is the cure of this disease?", "Bulging eyes how to cure this disease", "Lethargy"],
+            "responses": ["This is Dropsy disease. Isolate infected fish, use antibiotics, provide an Epsom salt bath, and address underlying water quality issues."],
+            "context": [""]
+        },
+        {
+            "tag": "velvet_disease",
+            "patterns": ["Fine yellowish/golden dust on fish what is the cure?", "Scratching against objects", "Rapid breathing"],
+            "responses": ["This is Velvet disease. Raise water temperature slowly, use medication (copper-based, formalin), and quarantine infected fish."],
+            "context": [""]
+        },
+        {
+            "tag": "columnaris",
+            "patterns": ["White patches on mouth or body how to deal with this?", "Lethargy", "Loss of appetite"],
+            "responses": ["This is Columnaris (Mouth Fungus). Use antibiotics, medication (potassium permanganate, methylene blue), and maintain good water quality."],
+            "context": [""]
+        },
+        {
+            "tag": "popeye",
+            "patterns": ["Protruding or swollen eyes", "Cloudiness or discoloration of eyes"],
+            "responses": ["This is Popeye disease. Try to isolate infected fish, use antibiotic treatment, and maintain good water quality."],
+            "context": [""]
+        },
+        {
+            "tag": "small_tank",
+            "patterns": ["Can we keep fish in a bowl or very small fish tank?", "Can I keep fish in a small bowl?", "Can guppy live in a small tank?"],
+            "responses": ["No, it's not good to keep fish in a bowl or very small tank. If you have limited space, consider small varieties of fish like guppies, shrimps, or fish babies."],
+            "context": [""]
+        },
+        {
+            "tag": "temperature",
+            "patterns": ["What is the ideal temperature to keep fish?", "Temperature in which lives happy?", "Best temperature to keep fish?"],
+            "responses": ["Temperature should be between 23°C to 28°C; this range is ideal for most types of fish."],
+            "context": [""]
+        },
+        {
+            "tag": "fungal_infections",
+            "patterns": ["Cotton-like growths on fish", "Fish with fungal infections", "How to treat fungal infections in fish?"],
+            "responses": ["Fungal infections often appear as cotton-like growths. Treat with antifungal medications and improve water quality."],
+            "context": [""]
+        },
+        {
+            "tag": "parasites",
+            "patterns": ["Fish with parasites", "Signs of parasites in fish", "How to treat fish parasites?"],
+            "responses": ["Parasites can cause scratching, clamped fins, and abnormal behavior. Use antiparasitic medications and ensure good water conditions."],
+            "context": [""]
+        },
+        {
+            "tag": "bloat",
+            "patterns": ["Swollen abdomen in fish", "Fish with bloat", "How to treat bloat in fish?"],
+            "responses": ["Bloat can be caused by overfeeding or internal issues. Fast the fish for a few days, and use medications if necessary."],
+            "context": [""]
+        },
+        {
+            "tag": "fin_and_tail_rot",
+            "patterns": ["Fins and tail rotting", "Fish with fin and tail rot", "How to cure fin and tail rot in fish?"],
+            "responses": ["Fin and tail rot is often due to poor water quality. Perform water changes, use antibiotics, and ensure good tank conditions."],
+            "context": [""]
+        },
+
+        {
+            "tag": "fish_behavior",
+            "patterns": ["Why is my fish hiding?", "Why is my fish aggressive?", "Fish is not eating"],
+            "responses": ["Fish may hide due to stress or illness. Aggression could be due to territorial behavior or lack of space. If a fish is not eating, check for signs of illness or water quality issues."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_size",
+            "patterns": ["How big should my tank be for 5 fish?", "What size tank for a goldfish?", "Is a 10-gallon tank enough?"],
+            "responses": ["The size of the tank depends on the species and number of fish. Generally, a 10-gallon tank is suitable for small fish, but larger fish like goldfish require more space."],
+            "context": [""]
+        },
+        {
+            "tag": "tank_mates",
+            "patterns": ["Can I mix tetras with guppies?", "What fish are compatible with bettas?", "Can goldfish live with tropical fish?"],
+            "responses": ["Tetras and guppies generally get along well. Bettas can be aggressive towards other fish, so choose peaceful tank mates. Goldfish should not be kept with tropical fish due to different water temperature needs."],
+            "context": [""]
+        },
+        {
+            "tag": "temperature",
+            "patterns": ["What is the best temperature for goldfish?", "How to maintain tank temperature?", "Ideal temperature for tropical fish?"],
+            "responses": ["Goldfish prefer cooler temperatures, typically around 18-22°C (64-72°F). Tropical fish generally thrive in temperatures between 24-28°C (75-82°F). Use heaters and thermometers to maintain and monitor the temperature."],
+            "context": [""]
+        },
+        {
+            "tag": "water_cleaning",
+            "patterns": ["How often should I clean my aquarium filter?", "Best way to clean a fish tank", "How to remove algae from aquarium?"],
+            "responses": ["Clean the aquarium filter regularly, usually once a month. To clean a fish tank, perform partial water changes, scrub algae, and clean the substrate. Use algae scrapers or brushes to remove algae from surfaces."],
+            "context": [""]
+        },
+        {
+            "tag": "algae",
+            "patterns": ["How to prevent algae growth?", "What causes algae blooms in aquariums?", "How to get rid of algae in a fish tank?"],
+            "responses": ["Algae growth can be prevented by maintaining good water quality, limiting light exposure, and avoiding overfeeding. Algae blooms are often caused by excess nutrients and light. Regular water changes and algae-eating fish or invertebrates can help control algae."],
+            "context": [""]
+        },
+        {
+            "tag": "cleaning_types",
+            "patterns": ["Different methods for cleaning fish tanks", "How to use a gravel vacuum?", "Manual vs. automatic tank cleaning"],
+            "responses": ["Common cleaning methods include manual cleaning with sponges and brushes, using a gravel vacuum for substrate cleaning, and automatic tank cleaners. Gravel vacuums help remove debris from the substrate during water changes. Automatic cleaners can help maintain tank cleanliness with less effort."],
+            "context": [""]
+        },
+        {
+            "tag": "fish_disease_symptoms",
+            "patterns": ["What does it mean if fish are swimming erratically?", "What to do if fish are gasping for air?", "Signs of poor water quality in fish"],
+            "responses": ["Erratic swimming can indicate stress or disease. Gasping for air may be a sign of low oxygen levels or water quality issues. Look for changes in water parameters and perform regular testing and maintenance to ensure good water quality."],
+            "context": [""]
+        },
+        {
+            "tag": "fish_health_check",
+            "patterns": ["How to perform a health check on my fish?", "What to look for in a healthy fish?", "How to spot a sick fish?"],
+            "responses": ["Perform regular health checks by observing fish behavior, appearance, and appetite. Healthy fish have clear eyes, smooth fins, and a normal appetite. Signs of illness include abnormal swimming, loss of color, and unusual behavior."],
+            "context": [""]
+        },
+        {
+            "tag": "aquarium_accessories",
+            "patterns": ["What accessories are essential for an aquarium?", "Best equipment for fish tanks", "Do I need a protein skimmer?"],
+            "responses": ["Essential aquarium accessories include a good filter, heater, lighting, and a thermometer. Additional equipment like a protein skimmer can help in saltwater tanks to remove organic waste. Choose accessories based on your tank’s needs and inhabitants."],
+            "context": [""]
+        },
+        {
+            "tag": "aquarium_setup",
+            "patterns": ["How to set up a new aquarium?", "What are the steps to start a fish tank?", "How to prepare a new tank for fish?"],
+            "responses": ["Setting up a new aquarium involves rinsing the tank and equipment, adding substrate, setting up filtration and heating, and cycling the tank before adding fish. Ensure the water parameters are stable and appropriate for your fish species before introducing them."],
+            "context": [""]
+        },
+
+        {
+            "tag": "guppies",
+            "patterns": ["Guppies tank mates", "What fish can live with guppies?", "Best tank mates for guppies"],
+            "responses": ["Guppies can live with Corydoras catfish, neon tetras, mollies, platies, and swordtails."],
+            "context": [""]
+        },
+        {
+            "tag": "neon_tetras",
+            "patterns": ["Neon tetras tank mates", "What fish are good with neon tetras?", "Best tank mates for neon tetras"],
+            "responses": ["Neon tetras can be kept with guppies, Corydoras catfish, rasboras, and small peaceful species like shrimp."],
+            "context": [""]
+        },
+        {
+            "tag": "betta_fish",
+            "patterns": ["Betta fish tank mates", "What fish can live with bettas?", "Best tank mates for betta fish"],
+            "responses": ["Betta fish are best kept alone, but if housed with others, consider Corydoras catfish or small, non-aggressive fish."],
+            "context": [""]
+        },
+        {
+            "tag": "angelfish",
+            "patterns": ["Angelfish tank mates", "What fish can live with angelfish?", "Best tank mates for angelfish"],
+            "responses": ["Angelfish can live with Corydoras catfish, tetras, rasboras, gouramis, and other larger peaceful fish."],
+            "context": [""]
+        },
+        {
+            "tag": "mollies",
+            "patterns": ["Mollies tank mates", "What fish can live with mollies?", "Best tank mates for mollies"],
+            "responses": ["Mollies can be kept with guppies, platies, swordtails, and Corydoras catfish."],
+            "context": [""]
+        },
+        {
+            "tag": "platies",
+            "patterns": ["Platies tank mates", "What fish can live with platies?", "Best tank mates for platies"],
+            "responses": ["Platies can live with guppies, mollies, swordtails, and small peaceful fish like Corydoras catfish."],
+            "context": [""]
+        },
+        {
+            "tag": "swordtails",
+            "patterns": ["Swordtails tank mates", "What fish can live with swordtails?", "Best tank mates for swordtails"],
+            "responses": ["Swordtails can be kept with guppies, platies, mollies, and Corydoras catfish."],
+            "context": [""]
+        },
+        {
+            "tag": "corydoras_catfish",
+            "patterns": ["Corydoras catfish tank mates", "What fish can live with Corydoras catfish?", "Best tank mates for Corydoras catfish"],
+            "responses": ["Corydoras catfish can live with guppies, tetras, rasboras, and other small peaceful fish."],
+            "context": [""]
+        },
+        {
+            "tag": "rasboras",
+            "patterns": ["Rasboras tank mates", "What fish can live with rasboras?", "Best tank mates for rasboras"],
+            "responses": ["Rasboras can be kept with guppies, neon tetras, Corydoras catfish, and other small peaceful fish."],
+            "context": [""]
+        },
+        {
+            "tag": "goldfish",
+            "patterns": ["Goldfish tank mates", "What fish can live with goldfish?", "Best tank mates for goldfish"],
+            "responses": ["Goldfish can be kept with other goldfish or large peaceful fish. Avoid tropical fish due to differing temperature needs."],
+            "context": [""]
+        },
+        {
+            "tag": "gouramis",
+            "patterns": ["Gouramis tank mates", "What fish can live with gouramis?", "Best tank mates for gouramis"],
+            "responses": ["Gouramis can be kept with tetras, Corydoras catfish, rasboras, and other peaceful fish."],
+            "context": [""]
+        },
+        {
+            "tag": "zebra_danios",
+            "patterns": ["Zebra Danios tank mates", "What fish can live with zebra danios?", "Best tank mates for zebra danios"],
+            "responses": ["Zebra Danios can be kept with guppies, tetras, Corydoras catfish, and other small peaceful fish."],
+            "context": [""]
+        },
+        {
+            "tag": "shrimp",
+            "patterns": ["Shrimp tank mates", "What fish can live with shrimp?", "Best tank mates for shrimp"],
+            "responses": ["Shrimp can live with peaceful fish like guppies, tetras, and Corydoras catfish."],
+            "context": [""]
+        },
+        {
+            "tag": "plecostomus",
+            "patterns": ["Plecostomus tank mates", "What fish can live with plecostomus?", "Best tank mates for plecostomus"],
+            "responses": ["Plecostomus can live with larger peaceful fish like angelfish, gouramis, and tetras. They help control algae but can grow large."],
+            "context": [""]
+        },
+        {
+            "tag": "clown_loach",
+            "patterns": ["Clown loach tank mates", "What fish can live with clown loach?", "Best tank mates for clown loach"],
+            "responses": ["Clown loaches can be kept with other large peaceful fish like tetras, gouramis, and larger catfish. They do well in groups."],
+            "context": [""]
+        },
+        {
+            "tag": "discus",
+            "patterns": ["Discus tank mates", "What fish can live with discus?", "Best tank mates for discus"],
+            "responses": ["Discus fish can live with other peaceful fish like tetras, rasboras, and corydoras. They require stable water conditions and temperature."],
+            "context": [""]
+        },
+        {
+            "tag": "rainbowfish",
+            "patterns": ["Rainbowfish tank mates", "What fish can live with rainbowfish?", "Best tank mates for rainbowfish"],
+            "responses": ["Rainbowfish can be kept with tetras, rasboras, and other peaceful fish. They prefer to be in schools and need a well-planted tank."],
+            "context": [""]
+        },
+        {
+            "tag": "barbs",
+            "patterns": ["Barbs tank mates", "What fish can live with barbs?", "Best tank mates for barbs"],
+            "responses": ["Barbs can be kept with other active fish like danios, tetras, and rasboras. Avoid very small or slow-moving fish as they can be nippy."],
+            "context": [""]
+        },
+        {
+            "tag": "gouramis",
+            "patterns": ["Gouramis tank mates", "What fish can live with gouramis?", "Best tank mates for gouramis"],
+            "responses": ["Gouramis can be kept with tetras, Corydoras catfish, rasboras, and other peaceful fish."],
+            "context": [""]
+        },
+        {
+            "tag": "killifish",
+            "patterns": ["Killifish tank mates", "What fish can live with killifish?", "Best tank mates for killifish"],
+            "responses": ["Killifish can live with other small peaceful fish like tetras, rasboras, and guppies. They may need a well-planted tank to feel secure."],
+            "context": [""]
+        },
+        {
+            "tag": "otto_catfish",
+            "patterns": ["Otto catfish tank mates", "What fish can live with otto catfish?", "Best tank mates for otto catfish"],
+            "responses": ["Otto catfish are peaceful and can be kept with other small fish like tetras, guppies, and Corydoras catfish. They help control algae."],
+            "context": [""]
+        },
+        {
+            "tag": "pearl_gourami",
+            "patterns": ["Pearl gourami tank mates", "What fish can live with pearl gourami?", "Best tank mates for pearl gourami"],
+            "responses": ["Pearl gouramis can live with other peaceful fish like tetras, rasboras, and Corydoras catfish. They prefer a well-planted tank."],
+            "context": [""]
+        },
+        {
+            "tag": "cherry_barb",
+            "patterns": ["Cherry barb tank mates", "What fish can live with cherry barb?", "Best tank mates for cherry barb"],
+            "responses": ["Cherry barbs can be kept with other peaceful fish like guppies, tetras, and Corydoras catfish. They do well in schools."],
+            "context": [""]
+        },
+        {
+            "tag": "white_cloud_mountain_minnow",
+            "patterns": ["White cloud mountain minnow tank mates", "What fish can live with white cloud mountain minnow?", "Best tank mates for white cloud mountain minnow"],
+            "responses": ["White cloud mountain minnows can be kept with other small, peaceful fish like tetras, rasboras, and guppies."],
+            "context": [""]
+        },
+        {
+            "tag": "golden_dwarf_barb",
+            "patterns": ["Golden dwarf barb tank mates", "What fish can live with golden dwarf barb?", "Best tank mates for golden dwarf barb"],
+            "responses": ["Golden dwarf barbs can be kept with other small, peaceful fish like tetras, rasboras, and guppies."],
+            "context": [""]
+        },
+        {
+            "tag": "bristlenose_pleco",
+            "patterns": ["Bristlenose pleco tank mates", "What fish can live with bristlenose pleco?", "Best tank mates for bristlenose pleco"],
+            "responses": ["Bristlenose plecos can be kept with other peaceful fish like tetras, guppies, and Corydoras catfish. They help control algae."],
+            "context": [""]
+        },
+        {
+            "tag": "albino_corydoras",
+            "patterns": ["Albino Corydoras tank mates", "What fish can live with albino Corydoras?", "Best tank mates for albino Corydoras"],
+            "responses": ["Albino Corydoras can be kept with peaceful fish like guppies, tetras, and rasboras. They enjoy being in schools."],
+            "context": [""]
+        },
+        {
+            "tag": "honey_gourami",
+            "patterns": ["Honey gourami tank mates", "What fish can live with honey gourami?", "Best tank mates for honey gourami"],
+            "responses": ["Honey gouramis can be kept with other small, peaceful fish like tetras, rasboras, and Corydoras catfish."],
+            "context": [""]
+        },
+        {
+            "tag": "bristlenose_pleco",
+            "patterns": ["Bristlenose pleco tank mates", "What fish can live with bristlenose pleco?", "Best tank mates for bristlenose pleco"],
+            "responses": ["Bristlenose plecos can be kept with other peaceful fish like tetras, guppies, and Corydoras catfish. They help control algae."],
+            "context": [""]
+        },
+        {
+            "tag": "guppies_feeding",
+            "patterns": ["What do guppies eat?", "Guppy feeding guide", "Best food for guppies"],
+            "responses": ["Guppies eat a variety of foods including high-quality flakes, pellets, and occasional live or frozen foods like brine shrimp and daphnia."],
+            "context": [""]
+        },
+        {
+            "tag": "neon_tetras_feeding",
+            "patterns": ["What do neon tetras eat?", "Neon tetra feeding guide", "Best food for neon tetras"],
+            "responses": ["Neon tetras prefer small high-quality flakes or pellets. They can also enjoy live or frozen foods like micro worms and cyclops."],
+            "context": [""]
+        },
+        {
+            "tag": "betta_fish_feeding",
+            "patterns": ["What do betta fish eat?", "Betta feeding guide", "Best food for betta fish"],
+            "responses": ["Betta fish thrive on a diet of high-quality betta pellets or flakes. They also enjoy live or frozen foods like bloodworms and daphnia."],
+            "context": [""]
+        },
+        {
+            "tag": "angelfish_feeding",
+            "patterns": ["What do angelfish eat?", "Angelfish feeding guide", "Best food for angelfish"],
+            "responses": ["Angelfish eat a variety of foods including high-quality flakes, pellets, and live or frozen foods such as brine shrimp, bloodworms, and small feeder fish."],
+            "context": [""]
+        },
+        {
+            "tag": "mollies_feeding",
+            "patterns": ["What do mollies eat?", "Molly feeding guide", "Best food for mollies"],
+            "responses": ["Mollies eat high-quality flakes or pellets. They also benefit from live or frozen foods like brine shrimp and daphnia. Include vegetable matter for a balanced diet."],
+            "context": [""]
+        },
+        {
+            "tag": "platies_feeding",
+            "patterns": ["What do platies eat?", "Platy feeding guide", "Best food for platies"],
+            "responses": ["Platies enjoy high-quality flakes or pellets and occasional live or frozen foods like bloodworms and brine shrimp. They also appreciate vegetable-based foods."],
+            "context": [""]
+        },
+        {
+            "tag": "swordtails_feeding",
+            "patterns": ["What do swordtails eat?", "Swordtail feeding guide", "Best food for swordtails"],
+            "responses": ["Swordtails eat a mix of high-quality flakes, pellets, and occasional live or frozen foods like brine shrimp, bloodworms, and daphnia."],
+            "context": [""]
+        },
+        {
+            "tag": "corydoras_catfish_feeding",
+            "patterns": ["What do Corydoras catfish eat?", "Corydoras feeding guide", "Best food for Corydoras catfish"],
+            "responses": ["Corydoras catfish primarily eat sinking pellets or tablets. They can also be fed live or frozen foods like bloodworms and brine shrimp occasionally."],
+            "context": [""]
+        },
+        {
+            "tag": "rasboras_feeding",
+            "patterns": ["What do rasboras eat?", "Rasbora feeding guide", "Best food for rasboras"],
+            "responses": ["Rasboras prefer small high-quality flakes or pellets. They also enjoy live or frozen foods like micro worms and cyclops."],
+            "context": [""]
+        },
+        {
+            "tag": "goldfish_feeding",
+            "patterns": ["What do goldfish eat?", "Goldfish feeding guide", "Best food for goldfish"],
+            "responses": ["Goldfish eat high-quality goldfish flakes or pellets. They also enjoy live or frozen foods like brine shrimp and bloodworms, as well as vegetables like peas and spinach."],
+            "context": [""]
+        },
+        {
+            "tag": "gouramis_feeding",
+            "patterns": ["What do gouramis eat?", "Gourami feeding guide", "Best food for gouramis"],
+            "responses": ["Gouramis eat high-quality flakes, pellets, and occasional live or frozen foods such as bloodworms, brine shrimp, and daphnia."],
+            "context": [""]
+        },
+        {
+            "tag": "zebra_danios_feeding",
+            "patterns": ["What do zebra danios eat?", "Zebra Danio feeding guide", "Best food for zebra danios"],
+            "responses": ["Zebra danios eat high-quality flakes or pellets. They also appreciate live or frozen foods like brine shrimp and daphnia."],
+            "context": [""]
+        },
+        {
+            "tag": "shrimp_feeding",
+            "patterns": ["What do aquarium shrimp eat?", "Shrimp feeding guide", "Best food for aquarium shrimp"],
+            "responses": ["Aquarium shrimp eat algae, biofilm, and specialized shrimp food pellets. They can also benefit from blanched vegetables like zucchini and spinach."],
+            "context": [""]
+        },
+        {
+            "tag": "plecostomus_feeding",
+            "patterns": ["What do plecostomus eat?", "Plecostomus feeding guide", "Best food for plecostomus"],
+            "responses": ["Plecostomus eat algae wafers, sinking pellets, and occasionally live or frozen foods like bloodworms and brine shrimp."],
+            "context": [""]
+        },
+        {
+            "tag": "clown_loach_feeding",
+            "patterns": ["What do clown loaches eat?", "Clown loach feeding guide", "Best food for clown loach"],
+            "responses": ["Clown loaches eat high-quality pellets, flakes, and live or frozen foods such as bloodworms and brine shrimp. They also enjoy occasional vegetables."],
+            "context": [""]
+        },
+        {
+            "tag": "discus_feeding",
+            "patterns": ["What do discus fish eat?", "Discus feeding guide", "Best food for discus fish"],
+            "responses": ["Discus fish prefer high-quality pellets, flakes, and live or frozen foods like bloodworms, brine shrimp, and beef heart. A varied diet helps maintain their health."],
+            "context": [""]
+        },
+        {
+            "tag": "rainbowfish_feeding",
+            "patterns": ["What do rainbowfish eat?", "Rainbowfish feeding guide", "Best food for rainbowfish"],
+            "responses": ["Rainbowfish eat high-quality flakes, pellets, and live or frozen foods like brine shrimp, bloodworms, and daphnia. They benefit from a varied diet."],
+            "context": [""]
+        }
+    ]
+}

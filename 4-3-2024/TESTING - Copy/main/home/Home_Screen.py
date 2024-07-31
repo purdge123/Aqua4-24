@@ -34,7 +34,7 @@ class HomeScreen(Screen):
             pos_hint={'center_x': 0.55, 'top': 0.80}  # Adjusted pos_hint for horizontal shift
         )
         self.menu_layout.opacity = 0  # Initially hidden
-        self.add_widget(Image(source="mainBg.png", allow_stretch=True, keep_ratio=False, size_hint=(1, 1)))
+        self.add_widget(Image(source="mainBg.jpg", allow_stretch=True, keep_ratio=False, size_hint=(1, 1)))
 
         # Create an instance of MenuBox
         menu_box = self.create_menu_box()
@@ -188,36 +188,77 @@ class HomeScreen(Screen):
         self.manager.current = 'add_tank_screen'
 
     def open_chat_popup(self, instance):
-        # Create a popup for chat
+    # Create a popup for chat
         chat_popup = Popup(title='Chat Bot', size_hint=(None, None), size=(320, 450))
 
         # Create a simple chat layout with a ScrollView, a GridLayout, a TextInput, and a Send button
         chat_layout = GridLayout(cols=1, spacing=10, size_hint_y=None)
         chat_layout.bind(minimum_height=chat_layout.setter('height'))
 
-        scroll_view = ScrollView(size_hint=(1, None), size=(200, 300))
+        scroll_view = ScrollView(size_hint=(1, 0.9))
         scroll_view.add_widget(chat_layout)
 
         chat_input = TextInput(multiline=False, size_hint_y=None, height=40)
         send_button = Button(text='Send', size_hint_y=None, height=40, on_press=lambda x: self.send_chat_message(chat_input, chat_layout))
 
-        chat_popup.content = GridLayout(cols=1)
-        chat_popup.content.add_widget(scroll_view)
-        chat_popup.content.add_widget(chat_input)
-        chat_popup.content.add_widget(send_button)
+        popup_layout = GridLayout(cols=1)
+        popup_layout.add_widget(scroll_view)
+        popup_layout.add_widget(chat_input)
+        popup_layout.add_widget(send_button)
 
+        chat_popup.content = popup_layout
         chat_popup.open()
 
-    def send_chat_message(self, message, chat_layout):
-        # Handle sending chat messages (add functionality here)
-        user_message = message.text
-        self.new_chatbot.send_message(user_message)
-        message.text = ''
-        response = self.new_chatbot.get_response(user_message)
-        
-        # Display the user message and bot response in the chat layout
-        chat_layout.add_widget(Label(text=f'You: {user_message}', size_hint_y=None, height=40))
-        chat_layout.add_widget(Label(text=f'Bot: {response}', size_hint_y=None, height=40))
+
+    def send_chat_message(self, chat_input, chat_layout):
+        user_message = chat_input.text.strip()
+    
+        # Check if the user message is empty
+        if not user_message:
+            # Bot response for empty user message
+            response = "It seems like you haven't typed anything. Could you please provide some input?"
+        else:
+            # Get response from chatbot
+            response = self.new_chatbot.send_message(chat_input)
+        # Define styles for user and bot messages
+        user_color = (0.678, 0.847, 0.902, 1)  # Light blue
+        bot_color = (1, 0.647, 0, 1)  # Orange
+
+        # Create Labels for user and bot messages with appropriate text_size for wrapping
+        user_label = Label(
+            text=f'[b]You:[/b] {user_message}',
+            size_hint_y=None,
+            height=self.get_text_height(user_message),
+            color=user_color,
+            markup = True,
+            text_size=(self.width * 0.9, None),
+            halign='left',
+            padding=[dp(220), 0]
+        )
+        user_label.bind(texture_size=user_label.setter('size'))
+        chat_layout.add_widget(user_label)
+
+        bot_label = Label(
+            text=f'[b]Bot:[/b] {response}',
+            size_hint_y=None,
+            height=self.get_text_height(response),
+            color=bot_color,
+            markup = True,
+            text_size=(self.width * 0.9, None),
+            halign='left',
+            padding=[dp(220), 0]
+        )
+        bot_label.bind(texture_size=bot_label.setter('size'))
+        chat_layout.add_widget(bot_label)
+
+        # Scroll to the bottom of the chat
+        chat_layout.height = chat_layout.minimum_height
+        chat_layout.parent.scroll_y = 0  # Ensure the ScrollView scrolls to the bottom
+        chat_input.text = ''
+
+    def get_text_height(self, text):
+        # Estimate the height required for the text
+        return dp(40) * (text.count('\n') + 1)
 
     def add_tank_widget(self, tank_data):
         # Create a BoxLayout to hold tank details

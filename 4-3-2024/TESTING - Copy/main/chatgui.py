@@ -20,20 +20,15 @@ classes = pickle.load(open('classes.pkl', 'rb'))
 
 class ChatBotApp(MDApp):
     response = ''
-    def send_message(self,chat_input):     
+
+    def send_message(self, chat_input):
         user_message = chat_input.text
         chat_input.text = ""
 
         if user_message:
             bot_response = self.chatbot_response(user_message)
-            return bot_response    
-    # Update chat log
-        '''
-            chat_log = self.root.chat_log
-            chat_log.text += f"[b]You:[/b] {user_message}\n"
-            chat_log.text += f"[b]Bot:[/b] {bot_response}\n"
-            chat_log.height = chat_log.texture_size[1]
-        '''
+            return bot_response
+
     def chatbot_response(self, msg):
         p = self.bow(msg, words)
         res = model.predict(np.array([p]))[0]

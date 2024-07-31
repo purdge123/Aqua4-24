@@ -7,6 +7,7 @@ from login.Login_Screen import LoginScreen
 from scan.Scan_Screen import ScanScreen
 from chat.CHAT_Screen import  ChatScreen
 from kivymd.app import MDApp
+from chatgui import ChatBotApp
 
 
 class LoginSignupApp(MDApp):
