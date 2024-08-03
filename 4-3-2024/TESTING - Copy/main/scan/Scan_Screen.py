@@ -12,6 +12,7 @@ class ScanScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.name = 'scan_screen'
+        self.camera_ip = 'rtsp://192.168.100.33:8080/h264_ulaw.sdp'  # Default IP address
 
         # Load YOLOv8 models
         model_path_disease = "C:/Users/Dell/OneDrive/Desktop/Main FYP/Aqua4-24/4-3-2024/disease_trained_yolov8.pt"
@@ -34,17 +35,24 @@ class ScanScreen(Screen):
 
         # Queue for storing frames
         self.frame_queue = Queue(maxsize=10)
+        self.processed_frame_queue = Queue(maxsize=10)
 
     def on_enter(self):
         # Start capturing frames from the video stream when the screen is entered
         print("Starting video stream...")
-        self.cap = cv2.VideoCapture('http://192.168.100.89:8080/video')
+        self.cap = cv2.VideoCapture(self.camera_ip)
         if not self.cap.isOpened():
             print("Error: Cannot open video stream")
-        # Start a separate thread for capturing frames
+
+        # Start threads for capturing and processing frames
         self.capture_thread = Thread(target=self.capture_frames)
         self.capture_thread.daemon = True
         self.capture_thread.start()
+
+        self.process_thread = Thread(target=self.process_frames)
+        self.process_thread.daemon = True
+        self.process_thread.start()
+
         # Schedule frame updates
         Clock.schedule_interval(self.update_frame, 1.0 / 30.0)  # Update frame every 1/30th of a second
 
@@ -53,58 +61,58 @@ class ScanScreen(Screen):
             ret, frame = self.cap.read()
             if not ret or frame is None:
                 continue
-            # Resize frame to reduce processing load
             frame = cv2.resize(frame, (640, 480))
             if not self.frame_queue.full():
                 self.frame_queue.put(frame)
 
+    def process_frames(self):
+        while True:
+            if not self.frame_queue.empty():
+                frame = self.frame_queue.get()
+                results_disease = self.model_disease(frame)
+                results_default = self.model_default(frame)
+
+                # Process detection results for disease model
+                for detection in results_disease[0].boxes:
+                    label = int(detection.cls)
+                    conf = float(detection.conf)
+                    box = detection.xyxy.cpu().numpy().astype(int)[0]
+                    x1, y1, x2, y2 = box
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    class_name = self.class_names_disease.get(label, "Unknown")
+                    cv2.putText(frame, f'{class_name} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+                # Process detection results for default model
+                for detection in results_default[0].boxes:
+                    label = int(detection.cls)
+                    conf = float(detection.conf)
+                    box = detection.xyxy.cpu().numpy().astype(int)[0]
+                    x1, y1, x2, y2 = box
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                    class_name = self.class_names_default.get(label, "Unknown")
+                    cv2.putText(frame, f'{class_name} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+
+                if not self.processed_frame_queue.full():
+                    self.processed_frame_queue.put(frame)
+
     def update_frame(self, dt):
-        if not self.frame_queue.empty():
-            frame = self.frame_queue.get()
-            # Perform inference with both models
-            results_disease = self.model_disease(frame)
-            results_default = self.model_default(frame)
+        if not self.processed_frame_queue.empty():
+            frame = self.processed_frame_queue.get()
 
-            # Process detection results for disease model
-            for detection in results_disease[0].boxes:
-                label = int(detection.cls)
-                conf = float(detection.conf)
-                box = detection.xyxy.cpu().numpy().astype(int)[0]
-                x1, y1, x2, y2 = box
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                class_name = self.class_names_disease.get(label, "Unknown")
-                cv2.putText(frame, f'{class_name} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
-            # Process detection results for default model
-            for detection in results_default[0].boxes:
-                label = int(detection.cls)
-                conf = float(detection.conf)
-                box = detection.xyxy.cpu().numpy().astype(int)[0]
-                x1, y1, x2, y2 = box
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
-                class_name = self.class_names_default.get(label, "Unknown")
-                cv2.putText(frame, f'{class_name} {conf:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-
-            # Resize frame to fit the screen size
             window_size = self.image_widget.size
             resized = cv2.resize(frame, (int(window_size[0]), int(window_size[1])))
 
-            # Convert frame to texture
             buf = cv2.flip(resized, 0).tobytes()
             texture = Texture.create(size=(resized.shape[1], resized.shape[0]), colorfmt='bgr')
             texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
 
-            # Update image texture
             self.image_widget.texture = texture
 
     def on_leave(self):
-        # Stop the video stream when leaving the screen
         self.cap.release()
         cv2.destroyAllWindows()
 
     def go_back(self, instance):
-        # Stop the video stream
         self.cap.release()
         cv2.destroyAllWindows()
-        # Go back to the home screen
         self.manager.current = 'home_screen'
