@@ -12,7 +12,8 @@ from kivy.animation import Animation
 from pymongo import MongoClient
 from chatgui import ChatBotApp
 from pymongo.errors import PyMongoError
-from bson import ObjectId
+import requests
+
 
 class MongoDBClient:
     _instance = None
@@ -40,6 +41,7 @@ class HomeScreen(Screen):
     def on_enter(self, *args):
         self.update_username_from_login()  # Ensure username is updated
         self.fetch_user_tanks()  # Fetch tanks for the current user
+        self.fetch_temperature()  # Fetch temperature data
 
     def update_username_from_login(self):
         if self.manager:
@@ -51,9 +53,10 @@ class HomeScreen(Screen):
     def setup_ui(self):
         self.add_background_image()
         self.add_menu()
+        self.add_temperature_label()  # Add this line to include the temperature label
+        self.add_tank_container()
         self.add_top_buttons()
         self.add_center_button()
-        self.add_tank_container()
 
     def add_background_image(self):
         self.add_widget(Image(source="mainBg.jpg", allow_stretch=True, keep_ratio=False, size_hint=(dp(1), dp(1))))
@@ -117,17 +120,28 @@ class HomeScreen(Screen):
         logout_button.bind(on_press=self.go_to_login)
         self.add_widget(top_layout1)
 
+    
+    def add_temperature_label(self):
+        self.temperature_label = Label(
+            text="Current Temperature: Fetching...",
+            size_hint=(None, None),
+            size=(dp(200), dp(40)),
+            pos_hint={'center_x': 0.5, 'top': 0.95},
+            markup=True
+        )
+        self.add_widget(self.temperature_label)
+        self.fetch_temperature()  # Fetch the temperature when initializing
     def add_center_button(self):
         center_layout = BoxLayout(
-            orientation='vertical',
+            orientation='horizontal',
             size_hint=(None, None),
-            size=(dp(50), dp(50)),  # Adjusted size to match the button size
-            pos_hint={'center_y': 0.5, 'right': 1}  # Center vertically and align to the right
+            size=(dp(170), dp(50)),  # Adjusted size to match the button size
+            pos_hint={'x': 0.16, 'y': 0.05}  # Center vertically and align to the right
         )
         plus_button = Button(
-            text="+",
+            background_normal="addTank.png",
             size_hint=(None, None),
-            size=(dp(50), dp(50)),
+            size=(dp(170), dp(40)),
             on_press=self.on_plus_button_press
         )
         center_layout.add_widget(plus_button)
@@ -262,6 +276,7 @@ class HomeScreen(Screen):
     def get_text_height(self, text):
         # Estimate the height required for the text
         return dp(40) * (text.count('\n') + 1)
+
 
 
 
@@ -442,22 +457,42 @@ class HomeScreen(Screen):
         tank_widget = BoxLayout(orientation='vertical', size_hint=(None, None), size=(dp(200), dp(220)), padding=dp(1))
 
         # Tank name label above the image
-        tank_name = Label(text=f"[color=000000]Name: {tank_data['tank_name']}[/color]",markup=True,size_hint=(None, None),size=(dp(200), dp(20)),padding=(dp(2), dp(1))  )
+        tank_name = Label(text=f"[color=000000]{tank_data['tank_name']}[/color]", markup=True, size_hint=(None, None), size=(dp(200), dp(20)), padding=(dp(2), dp(1)))
+
         # Image widget
-        image_source = tank_data.get("image_path", "default_image.jpg")
+        image_path = tank_data.get("image_path")
+        image_source = image_path if image_path else "default_image.png"
         tank_image = Image(source=image_source, size_hint=(None, None), size=(dp(200), dp(150)))  # Set size to 2 cm square
+
         # Show Details Button
         show_details_button = Button(text="Show Details", size_hint=(None, None), size=(dp(200), dp(40)))
         show_details_button.bind(on_press=lambda btn: self.open_tank_details_popup(tank_data))
-        
-        
-        
-        tank_widget.add_widget(tank_image)
+
+        # Add widgets to the tank_widget layout
         tank_widget.add_widget(tank_name)
+        tank_widget.add_widget(tank_image)
         tank_widget.add_widget(show_details_button)
 
         # Add the tank widget to the GridLayout container
         self.tank_container.add_widget(tank_widget)
+
+
         
     def on_size(self, *args):
         self.tank_container.size = (self.width, self.height)
+        
+    
+    def fetch_temperature(self):
+        # Replace 'your_api_key' and 'your_city' with your actual API key and city
+        api_key = '7abc12a516f5c2e6b0fd545268c9b951'
+        city = 'karachi'
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+        try:
+            response = requests.get(url)
+            data = response.json()
+            temperature = data['main']['temp']
+            self.temperature_label.text = f"[color=00BFFF][size=24]{temperature}°C[/size][/color]"
+            
+        except Exception as e:
+            print(f"Error fetching temperature: {e}")
+            self.temperature_label.text = "Temperature data not available"

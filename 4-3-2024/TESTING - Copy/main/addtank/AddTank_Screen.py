@@ -20,6 +20,7 @@ class AddTankScreen(Screen):
         self.db = self.client['login_page']
         self.collection = self.db['Addition_page']
         self.username = username  # Set username dynamically during login
+        self.default_image_path = "default_image.png"  # Define the default image path
 
         self.setup_ui()
 
@@ -93,6 +94,8 @@ class AddTankScreen(Screen):
 
     def submit_form(self, instance):
         # Collect and save form data
+        image_path = self.file_path_label.text if self.file_path_label.text != 'No file chosen' else self.default_image_path
+        
         tank_data = {
             "username": self.username,
             "tank_id": self.tank_id_label.text,
@@ -100,7 +103,7 @@ class AddTankScreen(Screen):
             "tank_size": self.tank_size_input.text,
             "num_fishes": self.num_fishes_input.text,
             "camera_ip": self.camera_ip_input.text,  # Include the camera IP address
-            "image_path": self.file_path_label.text
+            "image_path": image_path
         }
         try:
             self.collection.insert_one(tank_data)
