@@ -136,13 +136,24 @@ class LoginScreen(Screen):
 
 
     def show_popup(self, title, message):
-        popup_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
-        popup_label = Label(text=message)
-        close_button = Button(text="Close", size_hint=(1, 0.5))
-
+        # Define layout for the popup
+        popup_layout = BoxLayout(orientation='vertical', padding=10, spacing=10, size_hint=(0.8, 0.4))
+        
+        # Add a label to show the message
+        popup_label = Label(text=message, size_hint=(1, 0.5))
+        
+        # Add a close button to dismiss the popup
+        close_button = Button(text="Close", size_hint=(1, 0.2))
+        
+        # Add widgets to the layout
         popup_layout.add_widget(popup_label)
         popup_layout.add_widget(close_button)
-
-        popup = Popup(title=title, content=popup_layout, size_hint=(0.5, 0.5))
+        
+        # Create and configure the popup
+        popup = Popup(title=title, content=popup_layout, size_hint=(0.8, 0.4), auto_dismiss=True)
+        
+        # Bind the close button to dismiss the popup
         close_button.bind(on_press=popup.dismiss)
+        
+        # Open the popup
         popup.open()

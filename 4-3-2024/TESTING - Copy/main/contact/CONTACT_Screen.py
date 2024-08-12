@@ -1,15 +1,16 @@
+from pymongo import MongoClient
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
-from kivymd.uix.button import MDRaisedButton
+from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.graphics import Rectangle
 from kivy.uix.slider import Slider
-from kivymd.uix.label import MDLabel
 from kivy.metrics import dp
+from kivy.uix.popup import Popup
 
 class ContactScreen(Screen):
     def __init__(self, **kwargs):
@@ -20,6 +21,11 @@ class ContactScreen(Screen):
         with self.canvas.before:
             self.bg_image = Rectangle(source='media/mainBg.jpg', size=Window.size, pos=self.pos)
         self.bind(size=self._update_rect, pos=self._update_rect)
+
+        # Initialize MongoDB connection
+        self.client = MongoClient('mongodb://localhost:27017/')  # Update with your MongoDB connection string
+        self.db = self.client['login_page']  # Replace 'login_page' with your database name
+        self.collection = self.db['user_feedback']  # Replace 'user_feedback' with your collection name
 
         # Main layout
         main_layout = BoxLayout(orientation='vertical', spacing=dp(10), padding=[dp(10), dp(20)], size_hint=(1, 1))
@@ -39,17 +45,17 @@ class ContactScreen(Screen):
         feedback_label = Label(text="Send Feedback", halign='center', color=(0, 0, 0, 1), font_size=dp(14), bold=True, size_hint_y=None, height=dp(40))
         
         # Feedback input field
-        feedback_input = TextInput(multiline=True, size_hint=(None, None), width=dp(250), height=dp(100), foreground_color=(0, 0, 0, 1), font_size=dp(14))
+        self.feedback_input = TextInput(multiline=True, size_hint=(None, None), width=dp(250), height=dp(100), foreground_color=(0, 0, 0, 1), font_size=dp(14))
         
         feedback_box.add_widget(feedback_label)
-        feedback_box.add_widget(feedback_input)
+        feedback_box.add_widget(self.feedback_input)
         main_layout.add_widget(feedback_box)
 
         # Rating slider and label
         slider_layout = BoxLayout(orientation='vertical', spacing=dp(10), size_hint=(1, None), height=dp(80), padding=[dp(20), dp(10)])
         self.rating_slider = Slider(min=1, max=5, value=3, step=1, size_hint_x=None, width=dp(250))
-        self.rating_label = MDLabel(text="Rating: 3 - Neutral", halign="center", size_hint=(None, None), size=(dp(250), dp(30)),
-                                    theme_text_color='Custom', text_color=(0, 0, 0, 1), font_style='H6')
+        self.rating_label = Label(text="Rating: 3 - Neutral", halign="center", size_hint=(None, None), size=(dp(250), dp(30)),
+                                  color=(0, 0, 0, 1), font_size=dp(14))
         self.rating_slider.bind(value=self.update_rating_text)
 
         slider_layout.add_widget(self.rating_slider)
@@ -57,7 +63,7 @@ class ContactScreen(Screen):
         main_layout.add_widget(slider_layout)
 
         # Submit button
-        submit_button = MDRaisedButton(
+        submit_button = Button(
             text='Submit',
             size_hint=(None, None),
             size=(dp(150), dp(40)),
@@ -89,13 +95,35 @@ class ContactScreen(Screen):
         self.rating_label.text = f"Rating: {rating} - {comments.get(rating, 'Unknown')}"
 
     def submit_form(self, instance):
-        # Add functionality to handle form submission (e.g., save data)
-        text_inputs = [widget for widget in self.children[0].children if isinstance(widget, TextInput)]
-        labels = [widget for widget in self.children[0].children if isinstance(widget, Label)]
-
-        for label, text_input in zip(labels, text_inputs):
-            print(f"{label.text}: {text_input.text}")
-
-        # Get the rating value
+        # Collect feedback data
+        feedback_text = self.feedback_input.text
         rating = int(self.rating_slider.value)
-        print(f"Rating given: {rating}")
+
+        # Prepare data for MongoDB
+        feedback_data = {
+            'feedback_text': feedback_text,
+            'rating': rating
+        }
+
+        # Insert data into MongoDB collection
+        self.collection.insert_one(feedback_data)
+
+        # Clear the form fields (optional)
+        self.feedback_input.text = ''
+        self.rating_slider.value = 3
+        self.update_rating_text(self.rating_slider, self.rating_slider.value)
+
+        # Show the feedback submitted popup
+        content = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
+        content.add_widget(Label(text="Feedback submitted ", halign='center'))
+        close_button = Button(text="Close", size_hint=(None, None), size=(dp(100), dp(50)), halign="center")
+        content.add_widget(close_button)
+
+        popup = Popup(title="Success", content=content, size_hint=(0.8, 0.4), auto_dismiss=True)
+        close_button.bind(on_press=lambda x: self.on_popup_close(popup))
+        popup.open()
+
+    def on_popup_close(self, popup):
+        popup.dismiss()
+        # Navigate back to the home screen (adjust 'home_screen' to your actual home screen name)
+        self.manager.current = 'home_screen'

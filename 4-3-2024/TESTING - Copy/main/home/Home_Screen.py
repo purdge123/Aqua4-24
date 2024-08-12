@@ -31,6 +31,9 @@ class HomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.username = None  # Initialize username attribute
+        self.collection = MongoDBClient().collection  # Access MongoDB collection
+        self.tank_popup = None  # Initialize tank_popup to None
+        self.edit_popup = None  # Initialize edit_popup to None
 
         # Initialize UI components
         self.setup_ui()
@@ -151,9 +154,9 @@ class HomeScreen(Screen):
 
     def create_menu_box(self):
         menu_box = BoxLayout(orientation='vertical', spacing=dp(8))
-        menu_items = ["Home", "Contact", "Help", "Scan"]
+        menu_items = ["Home", "Feedback", "Help", "Scan"]
         for item in menu_items:
-            menu_button = Button(text=item, size_hint_y=None, size=(dp(70), dp(40)), height=dp(40))
+            menu_button = Button(text=item, size_hint_y=None, size=(dp(150), dp(40)), height=dp(40))
             menu_button.bind(on_press=self.on_menu_button_press)
             menu_box.add_widget(menu_button)
         return menu_box
@@ -189,24 +192,16 @@ class HomeScreen(Screen):
     def on_menu_button_press(self, instance):
         if instance.text == "Home":
             self.manager.current = 'home_screen'
-        elif instance.text == "Contact":
+        elif instance.text == "Feedback":
             self.manager.current = 'contact_screen'
         elif instance.text == "Help":
-            self.show_help_popup()
+            self.manager.current = 'help_screen'
         elif instance.text == "Scan":
             self.manager.current = 'scan_screen'
 
     def go_to_home(self, instance):
         self.manager.current = 'home_screen'
 
-    def show_help_popup(self):
-        help_popup = Popup(
-            title='Help',
-            content=Label(text='We are here to help you'),
-            size_hint=(None, None),
-            size=(dp(300), dp(200))
-        )
-        help_popup.open()
 
     def go_to_login(self, instance):
         self.manager.current = 'login_screen'
@@ -322,8 +317,8 @@ class HomeScreen(Screen):
         tank_id_label = Label(text=f"Tank ID: {tank_data['tank_id']}")
         tank_name_label = Label(text=f"Tank Name: {tank_data['tank_name']}")
         tank_size_label = Label(text=f"Tank Size: {tank_data['tank_size']}")
-        num_fishes_label = Label(text=f"Number of Fishes: {tank_data['num_fishes']}")
-        camera_ip_label = Label(text=f"Camera IP Address: {tank_data.get('camera_ip', '')}")  # Show camera IP if available
+        num_fishes_label = Label(text=f"No of Fishes: {tank_data['num_fishes']}")
+        camera_ip_label = Label(text=f"IP Address: {tank_data.get('camera_ip', '')}")  # Show camera IP if available
         
         details_layout.add_widget(tank_id_label)
         details_layout.add_widget(tank_name_label)
@@ -334,22 +329,44 @@ class HomeScreen(Screen):
         # Create a layout for the buttons
         button_layout = BoxLayout(size_hint_y=None, height=dp(50), spacing=dp(10))
         
-        scan_button = Button(text="Scan", size_hint_x=None, width=dp(100))
+        scan_button = Button(text="Scan", size_hint_x=None, width=dp(70))
         scan_button.bind(on_release=lambda btn: self.handle_scan_button_press(tank_data))
-        edit_button = Button(text="Edit", size_hint_x=None, width=dp(100))
+        edit_button = Button(text="Edit", size_hint_x=None, width=dp(70))
         edit_button.bind(on_release=lambda btn: self.open_edit_popup(tank_data))
-        close_button = Button(text="Close", size_hint_x=None, width=dp(100))
-        close_button.bind(on_release=lambda btn: self.tank_popup.dismiss())
-
+        delete_button = Button(text="Delete", size_hint_x=None, width=dp(70))
+        delete_button.bind(on_release=lambda btn: self.delete_tank(tank_data))
+        
         button_layout.add_widget(scan_button)
         button_layout.add_widget(edit_button)
-        button_layout.add_widget(close_button)
+        button_layout.add_widget(delete_button)
         
         details_layout.add_widget(button_layout)
 
         # Create and open the popup
         self.tank_popup = Popup(title="Tank Details", content=details_layout, size_hint=(None, None), size=(dp(300), dp(300)))
         self.tank_popup.open()
+
+    def delete_tank(self, tank_data):
+        # Delete the tank details from the database
+        tank_id = tank_data['tank_id']
+        
+        try:
+            result = self.collection.delete_one({'tank_id': tank_id})
+            
+            if result.deleted_count > 0:
+                print(f"Tank with ID {tank_id} deleted from database.")
+            else:
+                print(f"Tank with ID {tank_id} not found in the database.")
+            
+            # Optionally close the popup after deletion
+            if self.tank_popup:
+                self.tank_popup.dismiss()
+
+            # Optionally refresh the UI or provide feedback
+            self.refresh_tanks()
+
+        except PyMongoError as e:
+            print(f"MongoDB Error: {e}")
 
     def open_edit_popup(self, tank_data):
         edit_layout = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(10))
@@ -366,7 +383,7 @@ class HomeScreen(Screen):
         edit_layout.add_widget(tank_size_input)
         edit_layout.add_widget(Label(text="Number of Fishes"))
         edit_layout.add_widget(num_fishes_input)
-        edit_layout.add_widget(Label(text="Camera IP Address"))
+        edit_layout.add_widget(Label(text="  Camera IP Address"))
         edit_layout.add_widget(camera_ip_input)
 
         # Create a layout for the buttons
@@ -499,10 +516,10 @@ class HomeScreen(Screen):
             temperature = data['main']['temp']
             self.temperature_label.text = f"[color=00BFFF][size=24]{temperature}°C[/size][/color]"
             
-            if temperature > 28:
-                self.show_alert_popup("       It's too hot! \n turn on the cooling mechanism", color="FF0000")
+            if temperature > 27:
+                self.show_alert_popup("            It's too hot! \n turn on the cooling mechanism", color="FF0000")
             elif temperature < 20:
-                self.show_alert_popup("    It's too cold! \n turn on the heaters", color="0000FF")
+                self.show_alert_popup("      It's too cold! \n turn on the heaters", color="0000FF")
                 
         except Exception as e:
             print(f"Error fetching temperature: {e}")

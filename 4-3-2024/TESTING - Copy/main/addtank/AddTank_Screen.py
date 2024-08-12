@@ -43,10 +43,10 @@ class AddTankScreen(Screen):
         self.center_layout.add_widget(self.text_input_layout)
 
         self.tank_id_label = self.create_text_input("Tank ID", self.generate_tank_id(), readonly=True)
-        self.tank_name_input = self.create_text_input("Tank Name")
-        self.tank_size_input = self.create_text_input("Tank Size")
-        self.num_fishes_input = self.create_text_input("Number of Fishes")
-        self.camera_ip_input = self.create_text_input("Camera IP Address")  # New field
+        self.tank_name_input = self.create_text_input("    Tank Name")
+        self.tank_size_input = self.create_text_input("    Tank Size")
+        self.num_fishes_input = self.create_text_input("      Number \n    of Fishes")
+        self.camera_ip_input = self.create_text_input("      Camera \n    IP Address")  # New field
 
         # File Chooser
         self.file_path_label = Label(text='No file chosen', color=(0, 0, 0, 1), size_hint=(None, None), size=(200, 40), pos_hint={'center_x': 0.5})
