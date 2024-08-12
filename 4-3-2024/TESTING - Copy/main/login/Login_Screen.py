@@ -4,8 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
-from kivy.uix.screenmanager import Screen, ScreenManager
-from kivy.app import App
+from kivy.uix.screenmanager import Screen
 from pymongo import MongoClient
 from kivy.uix.popup import Popup
 
@@ -32,7 +31,7 @@ class LoginScreen(Screen):
         self.padding = [50, 0]  # Adjusting top padding to move the content to the center
 
         # Remove background image
-        self.background = Image(source="Bg.png", allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
+        self.background = Image(source="media/Bg.png", allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
         self.add_widget(self.background)
 
         # Set background color
@@ -41,7 +40,7 @@ class LoginScreen(Screen):
         main_layout.bind(minimum_size=main_layout.setter('size'))
 
         # Add logo image
-        logo_image = Image(source="logo.png", size_hint=(None, None), size=(200, 200), pos_hint={'center_x': 0.5, 'center_y': 0.})
+        logo_image = Image(source="media/logo.png", size_hint=(None, None), size=(200, 200), pos_hint={'center_x': 0.5, 'center_y': 0.})
         main_layout.add_widget(logo_image)
 
         title = Label(text="Login or Signup", font_size=40, size_hint_y=None, height=40, font_name='times',
@@ -65,12 +64,12 @@ class LoginScreen(Screen):
         button_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(180, 30), spacing=10)
         button_layout.pos_hint = {'center_x': 0.5}
 
-        self.login_button = Button(background_normal="loginButton.png")
+        self.login_button = Button(background_normal="media/loginButton.png")
         self.login_button.bind(on_press=self.login)
         self.login_button.font_name = 'times'
         button_layout.add_widget(self.login_button)
 
-        self.signup_button = Button(background_normal="signupButton.png")
+        self.signup_button = Button(background_normal="media/signupButton.png")
         self.signup_button.bind(on_press=self.go_to_signup)
         self.signup_button.font_name = 'times'
         button_layout.add_widget(self.signup_button)

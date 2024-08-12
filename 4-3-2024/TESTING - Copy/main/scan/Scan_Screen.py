@@ -13,7 +13,7 @@ class ScanScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.name = 'scan_screen'
-        self.camera_ip = 'rtsp://192.168.1.101:8080/h264_ulaw.sdp'  # Default IP address
+        self.camera_ip = 'rtsp://192.168.1.108:8080/h264_ulaw.sdp'  # Default IP address
 
         # Load YOLOv8 models
         model_path_disease = "C:/Users/Dell/OneDrive/Desktop/Main FYP/Aqua4-24/4-3-2024/disease_trained_yolov8.pt"
@@ -30,7 +30,7 @@ class ScanScreen(Screen):
         self.add_widget(self.image_widget)
 
         # Adding back button
-        back_button = Button(background_normal="backButton.png", size_hint=(None, None), size=(100, 40), pos_hint={'x': 0, 'y': 0})
+        back_button = Button(background_normal="media/backButton.png", size_hint=(None, None), size=(100, 40), pos_hint={'x': 0, 'y': 0})
         back_button.bind(on_press=self.go_back)
         self.add_widget(back_button)
 

@@ -59,7 +59,7 @@ class HomeScreen(Screen):
         self.add_center_button()
 
     def add_background_image(self):
-        self.add_widget(Image(source="mainBg.jpg", allow_stretch=True, keep_ratio=False, size_hint=(dp(1), dp(1))))
+        self.add_widget(Image(source="media/mainBg.jpg", allow_stretch=True, keep_ratio=False, size_hint=(dp(1), dp(1))))
 
     def add_menu(self):
         self.menu_layout = BoxLayout(
@@ -90,7 +90,7 @@ class HomeScreen(Screen):
             size_hint=(None, None),
             size=(dp(80), dp(80)),
             pos_hint={'right': 0.98, 'bottom': 0.02},
-            background_normal="chatButton.png",
+            background_normal="media/chatButton.png",
             on_press=self.open_chat_popup
         )
         self.animate_button(chat_button)
@@ -99,20 +99,20 @@ class HomeScreen(Screen):
         hamburger_button = Button(
             size_hint=(None, None),
             size=(dp(100), dp(35)),
-            background_normal="menuButton.png",
+            background_normal="media/menuButton.png",
             pos_hint={'top': 0.80, 'right': 0.85},
             on_press=self.toggle_menu
         )
         
         # Add logo to the top left
-        logo = Image(source="logo.png", size_hint=(None, None), size=(dp(80), dp(80)))
+        logo = Image(source="media/logo.png", size_hint=(None, None), size=(dp(80), dp(80)))
         top_layout2.add_widget(logo)
         
         top_layout2.add_widget(hamburger_button)
         self.add_widget(top_layout2)
 
         logout_button = Button(
-            background_normal="logoutButton.png",
+            background_normal="media/logoutButton.png",
             size_hint=(None, None),
             size=(dp(70), dp(30))
         )
@@ -139,7 +139,7 @@ class HomeScreen(Screen):
             pos_hint={'x': 0.16, 'y': 0.05}  # Center vertically and align to the right
         )
         plus_button = Button(
-            background_normal="addTank.png",
+            background_normal="media/addTank.png",
             size_hint=(None, None),
             size=(dp(170), dp(40)),
             on_press=self.on_plus_button_press
@@ -190,7 +190,7 @@ class HomeScreen(Screen):
         if instance.text == "Home":
             self.manager.current = 'home_screen'
         elif instance.text == "Contact":
-            self.manager.current = 'chat_screen'
+            self.manager.current = 'contact_screen'
         elif instance.text == "Help":
             self.show_help_popup()
         elif instance.text == "Scan":
@@ -218,7 +218,7 @@ class HomeScreen(Screen):
 
     def open_chat_popup(self, instance):
         chat_popup = Popup(title='Chat Bot', size_hint=(None, None), size=(dp(320), dp(450)))
-        chat_layout = GridLayout(cols=1, spacing=(10), size_hint_y=None)
+        chat_layout = GridLayout(cols=1, spacing=(1), size_hint_y=None)
         chat_layout.bind(minimum_height=chat_layout.setter('height'))
 
         scroll_view = ScrollView(size_hint=(1,0.9))
@@ -243,35 +243,40 @@ class HomeScreen(Screen):
         user_color = (0.678, 0.847, 0.902, 1)  # Light blue
         bot_color = (1, 0.647, 0, 1)  # Orange
 
-        # Create Labels for user and bot messages with bold text and appropriate text_size for wrapping
+        # Create Labels for user and bot messages with appropriate text_size for wrapping
         user_label = Label(
             text=f'[b]You:[/b] {user_message}',
             size_hint_y=None,
-            height=self.get_text_height(user_message),
-            color=user_color,
             markup=True,  # Enable markup to use [b] for bold text
-            text_size=(self.width * 0.9, None),
+            color=user_color,
+            text_size=(chat_layout.width * 0.9, None),  # Set text_size to wrap the text within the layout's width
             halign='left',
-            padding=[dp(220), 0]  # Add padding to the left
+            valign='top',
+            padding=[dp(5), dp(5)]  # Add padding around the text
         )
+        user_label.bind(size=lambda *x: user_label.setter('text_size')(user_label, (user_label.width, None)))
+        user_label.bind(texture_size=lambda *x: user_label.setter('height')(user_label, user_label.texture_size[1]))
         chat_layout.add_widget(user_label)
 
         bot_label = Label(
             text=f'[b]Bot:[/b] {response}',
             size_hint_y=None,
-            height=self.get_text_height(response),
-            color=bot_color,
             markup=True,  # Enable markup to use [b] for bold text
-            text_size=(self.width * 0.9, None),
+            color=bot_color,
+            text_size=(chat_layout.width * 0.9, None),  # Set text_size to wrap the text within the layout's width
             halign='left',
-            padding=[dp(220), 0]  # Add padding to the left
+            valign='top',
+            padding=[dp(5), dp(5)]  # Add padding around the text
         )
+        bot_label.bind(size=lambda *x: bot_label.setter('text_size')(bot_label, (bot_label.width, None)))
+        bot_label.bind(texture_size=lambda *x: bot_label.setter('height')(bot_label, bot_label.texture_size[1]))
         chat_layout.add_widget(bot_label)
 
         # Scroll to the bottom of the chat
         chat_layout.height = chat_layout.minimum_height
         chat_layout.parent.scroll_y = 0  # Ensure the ScrollView scrolls to the bottom
         chat_input.text = ''
+
 
     def get_text_height(self, text):
         # Estimate the height required for the text
@@ -482,17 +487,29 @@ class HomeScreen(Screen):
         self.tank_container.size = (self.width, self.height)
         
     
+    
     def fetch_temperature(self):
-        # Replace 'your_api_key' and 'your_city' with your actual API key and city
         api_key = '7abc12a516f5c2e6b0fd545268c9b951'
         city = 'karachi'
         url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+        
         try:
             response = requests.get(url)
             data = response.json()
             temperature = data['main']['temp']
             self.temperature_label.text = f"[color=00BFFF][size=24]{temperature}°C[/size][/color]"
             
+            if temperature > 28:
+                self.show_alert_popup("       It's too hot! \n turn on the cooling mechanism", color="FF0000")
+            elif temperature < 20:
+                self.show_alert_popup("    It's too cold! \n turn on the heaters", color="0000FF")
+                
         except Exception as e:
             print(f"Error fetching temperature: {e}")
             self.temperature_label.text = "Temperature data not available"
+
+    def show_alert_popup(self, message, color):
+        popup = Popup(title='Alert!',
+                    content=Label(text=f'[color={color}]{message}[/color]', markup=True),
+                    size_hint=(0.8, 0.4))
+        popup.open()

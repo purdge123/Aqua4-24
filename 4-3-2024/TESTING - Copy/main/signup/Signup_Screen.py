@@ -19,7 +19,7 @@ class SignupScreen(Screen):
         self.padding = [50, 0]  # Adjusting top padding to move the content to the center
 
         # Adding background image for signup screen
-        self.background = Image(source="images (11).jpeg", allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
+        self.background = Image(source="media/images (11).jpeg", allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
         self.add_widget(self.background)
 
         # BoxLayout to hold the back button and existing content

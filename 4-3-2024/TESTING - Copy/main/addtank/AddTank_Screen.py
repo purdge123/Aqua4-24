@@ -20,12 +20,12 @@ class AddTankScreen(Screen):
         self.db = self.client['login_page']
         self.collection = self.db['Addition_page']
         self.username = username  # Set username dynamically during login
-        self.default_image_path = "default_image.png"  # Define the default image path
+        self.default_image_path = "media/default_image.png"  # Define the default image path
 
         self.setup_ui()
 
     def setup_ui(self):
-        self.add_widget(Image(source="home_image.jpg", allow_stretch=True, keep_ratio=False, size_hint=(1, 1)))
+        self.add_widget(Image(source="media/home_image.jpg", allow_stretch=True, keep_ratio=False, size_hint=(1, 1)))
 
         float_layout = FloatLayout()
         self.add_widget(float_layout)
@@ -35,7 +35,7 @@ class AddTankScreen(Screen):
         float_layout.add_widget(self.center_layout)
 
         # Back Button
-        back_button = Button(background_normal="backButton.png", size_hint=(None, None), size=(100, 40), pos_hint={'x': 0.04, 'y': 0.03}, on_press=self.go_back)
+        back_button = Button(background_normal="media/backButton.png", size_hint=(None, None), size=(100, 40), pos_hint={'x': 0.04, 'y': 0.03}, on_press=self.go_back)
         float_layout.add_widget(back_button)
 
         # Input Fields
